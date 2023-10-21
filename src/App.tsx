@@ -1,12 +1,15 @@
-function App() {
+import styled from "styled-components";
 
+export default function App() {
   return (
-    <>
-      <h1>
-      환경 세팅 중 ~.~
-      </h1>
-    </>
-  )
+    <MobileContainer>
+      <h1>라우터 설정 필요!</h1>
+    </MobileContainer>
+  );
 }
 
-export default App
+const MobileContainer = styled.div`
+  position: relative;
+
+  margin: 0 auto;
+`;
