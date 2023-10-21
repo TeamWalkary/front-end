@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     body,html {
         height: 100%;
         background-color: #fffefc;
+        font-size: 62.5%;
     }
     body {
         -webkit-font-smoothing: antialiased;
