@@ -1,4 +1,3 @@
-import React from "react";
 import { styled } from "styled-components";
 import { ReactComponent as Logo } from "../../assests/logo.svg";
 import { ReactComponent as CloseBtn } from "../../assests/CloseBtn.svg";
@@ -44,14 +43,13 @@ const LoginArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   flex-direction: column;
   position: relative;
 `;
 
 const LoginMsg = styled.div`
   margin: 1.6rem 0 4.8rem 0;
-
   text-align: center;
   font-family: Pretendard;
   font-size: 16px;
@@ -69,7 +67,6 @@ const LoginWrapper = styled.div`
 `;
 
 const LoginLabel = styled.form`
-  color: #333;
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 700;
@@ -83,6 +80,9 @@ const LoginInput = styled.input`
   height: 2.8rem;
   gap: 0.4rem;
   border-bottom: 1px solid #dcdcdc;
+  &:active {
+    border-bottom: 1px solid #333;
+  }
 `;
 
 const LoginBtn = styled.input`
@@ -105,7 +105,6 @@ const LoginBtn = styled.input`
 
 const SignUpBtn = styled.div`
   margin-top: 2rem;
-  color: #333;
   text-align: center;
   font-size: 1.6rem;
   line-height: 2.4rem;
