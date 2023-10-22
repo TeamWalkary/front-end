@@ -6,6 +6,8 @@ import SideNav from "./SideNav";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Today from "../Common/Today";
+import MapView from "./MapView";
+
 
 const MainView = () => {
   const [sideNavOpen, setSideNavOpen] = useState(false);
@@ -20,9 +22,11 @@ const MainView = () => {
         <Today />
         <Calendar />
       </MainHeader>
-      <MapArea></MapArea>
       <div>
         <section>
+      <MapArea><MapView/></MapArea>
+      <RecordArea>
+        <RecordDetail>
           <RecordTitleArea>
             <RecordTitle
               className={isPin ? "active" : ""}
