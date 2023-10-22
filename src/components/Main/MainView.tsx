@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Today from "../Common/Today";
 import MapView from "./MapView";
 
-
 const MainView = () => {
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
@@ -24,9 +23,9 @@ const MainView = () => {
       </MainHeader>
       <div>
         <section>
-      <MapArea><MapView/></MapArea>
-      <RecordArea>
-        <RecordDetail>
+          <MapArea>
+            <MapView />
+          </MapArea>
           <RecordTitleArea>
             <RecordTitle
               className={isPin ? "active" : ""}
