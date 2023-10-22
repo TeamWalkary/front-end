@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import useInputValue from "../../hooks/useInputValue";
 import Input from "../Common/Input";
 import Button from "../Common/Button";
+import axios from "axios";
 
-const SignUpData = () => {
+const SubmitForms = () => {
   const initInputValue = {
     id: "",
     pw: "",
@@ -22,29 +23,24 @@ const SignUpData = () => {
   const navigate = useNavigate();
 
   const postUserData = () => {
-    // fetch(`${import.meta.env.REACT_APP_IP}/apis/signUp`, {
-    fetch(
-      ` https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/signUp`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    // `${import.meta.env.REACT_APP_IP}/apis/signUp`
+    axios
+      .post(
+        "https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/signUp",
+        {
           userId: inputValue.id,
           password: inputValue.pw,
-        }),
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
+        }
+      )
       .then((data) => {
-        if (data.message === "회원가입 성공") {
+        if (data.status === 200) {
           navigate("/login");
-        } else if (data.message === "중복된 id입니다.") {
+        } else if (data.status === 400) {
           alert("아이디 또는 비밀번호 다시 확인해주세요.");
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -55,7 +51,7 @@ const SignUpData = () => {
         type={"text"}
         title={"아이디"}
         placeholder={"아이디"}
-        validText={"아이디를 입력해주세요."}
+        validText={"아이디를 확인해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
@@ -65,7 +61,7 @@ const SignUpData = () => {
         type={"password"}
         title={"비밀번호"}
         placeholder={"비밀번호"}
-        validText={"비밀번호를를 입력해주세요."}
+        validText={"비밀번호를를 확인해주세요."}
         required
         handleInput={handleInput}
         isValid={true}
@@ -89,4 +85,4 @@ const SignUpData = () => {
   );
 };
 
-export default SignUpData;
+export default SubmitForms;

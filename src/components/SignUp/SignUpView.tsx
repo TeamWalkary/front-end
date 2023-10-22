@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../assests/backArrow.svg";
 import { styled } from "styled-components";
-import SignUpData from "./SignUpData";
+import SubmitForms from "./SubmitForms";
 
 const SignUpView = () => {
   const navigate = useNavigate();
@@ -17,8 +17,7 @@ const SignUpView = () => {
         </BtnArea>
         회원가입
       </SignUpTop>
-
-      <SignUpData />
+      <SubmitForms />
     </SignUpArea>
   );
 };

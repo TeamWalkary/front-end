@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import useInputValue from "../../hooks/useInputValue";
 import Input from "../Common/Input";
 import Button from "../Common/Button";
+import axios from "axios";
 
-const LoginData = () => {
+const SubmitForms = () => {
   const initInputValue = {
     id: "",
     pw: "",
@@ -19,26 +20,25 @@ const LoginData = () => {
   const navigate = useNavigate();
 
   const postUserData = () => {
-    fetch(`${import.meta.env.REACT_APP_IP}/apis/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: inputValue.id,
-        password: inputValue.pw,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        if (data.message === "Login successful") {
-          localStorage.setItem("token", data.token);
+    // `${import.meta.env.REACT_APP_IP}/apis/login`
+    axios
+      .post(
+        "https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/login",
+        {
+          userId: inputValue.id,
+          password: inputValue.pw,
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
           navigate("/main");
-        } else if (data.message === "잘못된 id 혹은 password 입니다.") {
+        } else if (res.status === 400) {
           alert("아이디 또는 비밀번호 다시 확인해주세요.");
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -49,7 +49,7 @@ const LoginData = () => {
         type={"text"}
         title={"아이디"}
         placeholder={"아이디"}
-        validText={"아이디를 입력해주세요."}
+        validText={"아이디를 확인해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
@@ -59,7 +59,7 @@ const LoginData = () => {
         type={"password"}
         title={"비밀번호"}
         placeholder={"비밀번호"}
-        validText={"비밀번호를를 입력해주세요."}
+        validText={"비밀번호를를 확인해주세요."}
         required
         handleInput={handleInput}
         isValid={true}
@@ -73,4 +73,4 @@ const LoginData = () => {
   );
 };
 
-export default LoginData;
+export default SubmitForms;
