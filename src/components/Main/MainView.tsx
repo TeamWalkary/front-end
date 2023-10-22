@@ -2,9 +2,9 @@ import { styled } from "styled-components";
 import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
 import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
 import { ReactComponent as Pin } from "../../assests/pin.svg";
-import { Link } from "react-router-dom";
 import SideNav from "./SideNav";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MainView = () => {
   const today = new Date();
@@ -15,6 +15,8 @@ const MainView = () => {
   const date = today.getDate();
 
   const [sideNavOpen, setSideNavOpen] = useState(false);
+  const [isPin, setIsPin] = useState(true);
+  const navigate = useNavigate();
 
   const getKorDay = (day: number) => {
     switch (day) {
@@ -56,23 +58,42 @@ const MainView = () => {
         <Calendar />
       </MainHeader>
       <MapArea></MapArea>
-      <RecordArea>
-        <RecordDetail>
+      <div>
+        <section>
           <RecordTitleArea>
-            <RecordTitle className="active">핀 기록</RecordTitle>
-            <RecordTitle>
+            <RecordTitle
+              className={isPin ? "active" : ""}
+              onClick={() => setIsPin(true)}
+            >
+              핀 기록
+            </RecordTitle>
+            <RecordTitle
+              className={isPin ? "" : "active"}
+              onClick={() => setIsPin(false)}
+            >
               일기
-              <Link to="/diary">일기쓰기</Link>
             </RecordTitle>
           </RecordTitleArea>
           <EmptyView>
-            <Pin style={{ opacity: "0.2" }} />
-            지도에 있는 버튼을 눌러
-            <br />
-            핀을 생성해보세요!
+            {isPin ? (
+              <>
+                <Pin style={{ opacity: "0.2" }} />
+                지도에 있는 버튼을 눌러
+                <br />
+                핀을 생성해보세요!
+              </>
+            ) : (
+              <>
+                <br />
+                <br />
+                아직 오늘의 일기가 없네요!
+                <br />
+                <DiaryBtn onClick={() => navigate("/diary")}>일기쓰기</DiaryBtn>
+              </>
+            )}
           </EmptyView>
-        </RecordDetail>
-      </RecordArea>
+        </section>
+      </div>
     </MainArea>
   );
 };
@@ -99,8 +120,6 @@ const MapArea = styled.div`
   background-color: skyblue;
 `;
 
-const RecordArea = styled.div``;
-
 const RecordTitleArea = styled.div`
   display: flex;
 `;
@@ -117,9 +136,8 @@ const RecordTitle = styled.div`
   }
 `;
 
-const RecordDetail = styled.section``;
-
 const EmptyView = styled.div`
+  position: relative;
   margin-top: 11.5rem;
   display: flex;
   width: 100%;
@@ -130,4 +148,17 @@ const EmptyView = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   flex-direction: column;
+`;
+
+const DiaryBtn = styled.button`
+  display: inline-flex;
+  position: fixed;
+  bottom: 1.6rem;
+  padding: 0.8rem 5.2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 99px;
+  background: #333;
+  color: white;
 `;
