@@ -3,6 +3,7 @@ import useInputValue from "../../hooks/useInputValue";
 import Input from "../Common/Input";
 import Button from "../Common/Button";
 import axios from "axios";
+// import { realReq } from "../../api/axios";
 
 const SubmitForms = () => {
   const initInputValue = {
@@ -18,6 +19,23 @@ const SubmitForms = () => {
   const isValid: boolean = !!inputValue.id && !!inputValue.pw;
 
   const navigate = useNavigate();
+
+  // const postUserData = async () => {
+  //   const postData = {
+  //     userId: inputValue.id,
+  //     password: inputValue.pw,
+  //   };
+  //   try {
+  //     const response = await realReq.POST(
+  //       "https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/login",
+  //       postData
+  //     );
+  //     localStorage.setItem("token", response.data.token);
+  //     navigate("/main");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const postUserData = () => {
     // `${import.meta.env.REACT_APP_IP}/apis/login`
