@@ -10,9 +10,12 @@ const GlobalStyle = createGlobalStyle`
     body,html {
         height: 100%;
         background-color: #fffefc;
+        font-size: 62.5%;
+        color: #333;
     }
     body {
         -webkit-font-smoothing: antialiased;
+        font-family: 'Pretendard', sans-serif;
         line-height: 1.5;
     }
     @font-face {
@@ -21,8 +24,11 @@ const GlobalStyle = createGlobalStyle`
           format('woff');
         font-weight: 400;
         font-style: normal;
-      }
+    }
 
+    path {
+        fill: currentColor;
+    }
 `;
 
 export default GlobalStyle;
