@@ -1,7 +1,7 @@
-import React from "react";
+import MainView from "../components/Main/MainView";
 
 const Main = () => {
-  return <div>Main</div>;
+  return <MainView />;
 };
 
 export default Main;
