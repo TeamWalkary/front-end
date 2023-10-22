@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import React, { useEffect, useRef } from 'react';
-import { ReactComponent as PinIcon } from "../../assests/pin.svg";
-import { ReactComponent as GpsIcon } from "../../assests/gps.svg";
+import { ReactComponent as PinBtn } from "../../assests/pinBtn.svg";
+import { ReactComponent as GpsBtn } from "../../assests/gpsBtn.svg";
 import CurrentLoc from "../../assests/currentLocation.svg"
+import pinDraw from "../../assests/pinDraw.svg"
 
 declare global {
   interface Window {
@@ -10,10 +11,29 @@ declare global {
   }
 }
 
+const positions = [
+  {
+      title: '진저베어', 
+      latlng: new window.kakao.maps.LatLng(37.509138, 127.105394)
+  },
+  {
+      title: '석촌호수', 
+      latlng: new window.kakao.maps.LatLng(37.511667, 127.105191)
+  },
+  {
+      title: '롯데백화점', 
+      latlng: new window.kakao.maps.LatLng(37.5125295,127.102305)
+  }
+];
+
+
+const bounds = new window.kakao.maps.LatLngBounds();    
+
 const MapView: React.FC = () => {
   const mapRef = useRef<any>(null);
 
   useEffect(() => {
+
     const container = document.getElementById('map')
     const options = {
       center: new window.kakao.maps.LatLng(37.5132612, 127.1001336), // 지도의 중심좌표
@@ -22,29 +42,80 @@ const MapView: React.FC = () => {
 
     // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
     mapRef.current = new window.kakao.maps.Map(container!, options);
+    
+    if(positions.length > 0){
+      let linePath;
+      const lineLine = new window.kakao.maps.Polyline();
+      let polyline ;
 
-    if (navigator.geolocation) {
-
-      navigator.geolocation.getCurrentPosition(function(position) {
-
-        const lat = position.coords.latitude,
-              lon = position.coords.longitude;
-        const locPosition = new window.kakao.maps.LatLng(lat, lon);
-
-        displayMarker(mapRef.current, locPosition);
+       // 저장된핀마커표시
+      for (let i = 0; i < positions.length; i ++) {
+        const imageSize = new window.kakao.maps.Size(24, 24); 
+        const markerImage = new window.kakao.maps.MarkerImage(pinDraw, imageSize); 
         
-      });
-      
-    } else {
+        // 마커 생성
+        const marker = new window.kakao.maps.Marker({
+          map: mapRef.current,
+          position: positions[i].latlng,
+          title : positions[i].title,
+          image : markerImage 
+        });
+        marker.setMap(mapRef.current);
+        
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(positions[i].latlng);
+        if(i != 0) {
+          linePath = [positions[i-1].latlng,positions[i].latlng];
+        }
+        lineLine.setPath(linePath);
 
-      const locPosition = new window.kakao.maps.LatLng(37.5132612, 127.1001336);
-      displayMarker(mapRef.current, locPosition);
-      
+        polyline = new window.kakao.maps.Polyline({
+          map: mapRef.current,
+          path: linePath, // 선을 구성하는 좌표배열 
+          strokeWeight: 2, // 선의 두께
+          strokeColor: '#7bed9f', // 선의 색깔
+          strokeOpacity: 1, // 선의 불투명도
+          strokeStyle: 'solid' // 선의 스타일
+        });
+      }
+      setBounds();
+    
+    // 지도에 선을 표시합니다 
+    polyline.setMap(mapRef.current);  
+
+    }else{
+      currentPosition()
     }
-
-  }, []);
-
   
+  function setBounds() {
+      mapRef.current.setBounds(bounds);
+  }
+
+}, []);
+
+
+//현재위치를 가져옴
+function currentPosition () {
+if (navigator.geolocation) {
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+
+    const lat = position.coords.latitude,
+          lon = position.coords.longitude;
+    const locPosition = new window.kakao.maps.LatLng(lat, lon);
+
+    displayMarker(mapRef.current, locPosition);
+    
+  });
+  
+} else {
+
+  const locPosition = new window.kakao.maps.LatLng(37.5132612, 127.1001336);
+  displayMarker(mapRef.current, locPosition);
+  
+}}
+  
+  //현재위치마커표시
 function displayMarker(map:any ,locPosition:any ) {
 
   const imageSize = new window.kakao.maps.Size(15, 15); 
@@ -61,6 +132,7 @@ function displayMarker(map:any ,locPosition:any ) {
 	map.setCenter(locPosition);
 }
 
+//버튼클릭시 현재위치로 이동
 function handleGpsClick() {
 	if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition(function(position) {
@@ -101,9 +173,11 @@ const MapBtns = styled.div`
   z-index:1;
 `;
 
-const Gps = styled(GpsIcon)`
+const Gps = styled(GpsBtn)`
   cursor:pointer;
 `
-const Pin = styled(PinIcon)`
+const Pin = styled(PinBtn)`
   cursor:pointer;
+  color:white;
+  z-index:990;
 `
