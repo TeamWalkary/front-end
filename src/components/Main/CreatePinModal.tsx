@@ -81,14 +81,20 @@ const CreatePinModal = (props: modalProps) => {
   const handleSaveButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    const token = localStorage.getItem('token');
     if (inputPinContents.length >= 1) {
       axios
         .post(
-          'https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/pin',
+          'https://api.walkary.fun/apis/pin',
           {
             contents: inputPinContents,
             latitude,
             longitude,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
           }
         )
         .then(res => {

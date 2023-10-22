@@ -54,52 +54,57 @@ const MainView = () => {
         break;
     }
   };
-  // {
-  //   modalShow ? (
-  //     <CreatePinModal
-  //       setModalShow={setModalShow}
-  //       latitude={33.450701}
-  //       longitude={126.570667}
-  //     ></CreatePinModal>
-  //   ) : (
-  //     <>
-  //       <PinButton onClick={handlePinButton}> 핀 버튼</PinButton>
-  //     </>)
-  // }
+
   return (
-    <MainArea>
-      {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
-      <MainHeader>
-        <MenuBtn onClick={() => setSideNavOpen(true)} />
-        <span>
-          {year}. {month}. {date}. ({getKorDay(day)})
-        </span>
-        <Calendar />
-      </MainHeader>
-      <MapArea></MapArea>
-      <RecordArea>
-        <RecordDetail>
-          <RecordTitleArea>
-            <RecordTitle className='active'>핀 기록</RecordTitle>
-            <RecordTitle>
-              일기
-              <Link to='/diary'>일기쓰기</Link>
-            </RecordTitle>
-          </RecordTitleArea>
-          <EmptyView>
-            <Pin style={{ opacity: '0.2' }} />
-            지도에 있는 버튼을 눌러
-            <br />
-            핀을 생성해보세요!
-          </EmptyView>
-        </RecordDetail>
-      </RecordArea>
-    </MainArea>
+    <>
+      {modalShow ? (
+        <>
+          <CreatePinModal
+            setModalShow={setModalShow}
+            latitude={33.450701}
+            longitude={126.570667}
+          ></CreatePinModal>
+        </>
+      ) : (
+        <>
+          <PinButton onClick={handlePinButton}> 핀 버튼</PinButton>
+          <MainArea>
+            {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
+            <MainHeader>
+              <MenuBtn onClick={() => setSideNavOpen(true)} />
+              <span>
+                {year}. {month}. {date}. ({getKorDay(day)})
+              </span>
+              <Calendar />
+            </MainHeader>
+            <MapArea></MapArea>
+            <RecordArea>
+              <RecordDetail>
+                <RecordTitleArea>
+                  <RecordTitle className='active'>핀 기록</RecordTitle>
+                  <RecordTitle>
+                    일기
+                    <Link to='/diary'>일기쓰기</Link>
+                  </RecordTitle>
+                </RecordTitleArea>
+                <EmptyView>
+                  <Pin style={{ opacity: '0.2' }} />
+                  지도에 있는 버튼을 눌러
+                  <br />
+                  핀을 생성해보세요!
+                </EmptyView>
+              </RecordDetail>
+            </RecordArea>
+          </MainArea>
+        </>
+      )}
+    </>
   );
 };
 
 export default MainView;
 
+const PinButton = styled.button``;
 const MainArea = styled.div`
   height: 90vh;
 `;
