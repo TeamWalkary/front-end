@@ -1,12 +1,20 @@
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assests/logo.svg";
 import { ReactComponent as CloseBtn } from "../../assests/closeBtn.svg";
+import { useNavigate } from "react-router-dom";
 
 type sideNavPropsType = {
   setSideNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SideNav = ({ setSideNavOpen }: sideNavPropsType) => {
+  const navigate = useNavigate();
+
+  const handleLogout = (): void => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <NavBackGround>
       <NavArea>
@@ -19,7 +27,7 @@ const SideNav = ({ setSideNavOpen }: sideNavPropsType) => {
           <Navitem>핀 모아보기</Navitem>
           <Navitem>일기 모아보기</Navitem>
         </NavMenu>
-        <LogOut>로그아웃</LogOut>
+        <LogOut onClick={handleLogout}>로그아웃</LogOut>
       </NavArea>
     </NavBackGround>
   );
