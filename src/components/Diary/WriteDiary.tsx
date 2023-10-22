@@ -36,7 +36,7 @@ export default function WriteDiary() {
   return (
     <Container>
       <input placeholder="제목" value={title} onChange={handleChangeTitle} />
-      {imageUrl && <img src={imageUrl} alt="preview" />}
+      {imageUrl && <PreviewImage src={imageUrl} alt="preview" />}
       <textarea value={text} onChange={handleChangeContent}></textarea>
       <div>
         <input type="file" onChange={handleChangeImage} />
@@ -50,4 +50,10 @@ export default function WriteDiary() {
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+`;
+
+const PreviewImage = styled.img`
+  margin: 2rem;
+  height: auto;
+  aspect-ratio: 16 / 9;
 `;
