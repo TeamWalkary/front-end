@@ -1,4 +1,4 @@
-import MainView from "../components/Main/MainView";
+import MainView from '../components/Main/MainView';
 
 const Main = () => {
   
