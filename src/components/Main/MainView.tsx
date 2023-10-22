@@ -1,10 +1,11 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import CreatePinModal from './CreatePinModal';
+import { styled } from 'styled-components';
 import { ReactComponent as MenuBtn } from '../../assests/menuBtn.svg';
 import { ReactComponent as Calendar } from '../../assests/Calendar.svg';
 import { ReactComponent as Pin } from '../../assests/pin.svg';
+import { Link } from 'react-router-dom';
 import SideNav from './SideNav';
+import { useState } from 'react';
+import CreatePinModal from './CreatePinModal';
 
 const MainView = () => {
   ///핀 버튼과 모달 연결 위해 메인 뷰에 추가할 부분
@@ -80,7 +81,10 @@ const MainView = () => {
         <RecordDetail>
           <RecordTitleArea>
             <RecordTitle className='active'>핀 기록</RecordTitle>
-            <RecordTitle>일기</RecordTitle>
+            <RecordTitle>
+              일기
+              <Link to='/diary'>일기쓰기</Link>
+            </RecordTitle>
           </RecordTitleArea>
           <EmptyView>
             <Pin style={{ opacity: '0.2' }} />

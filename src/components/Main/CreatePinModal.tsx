@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as Closebutton } from '../../assests/closebutton.svg';
 import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<Boolean>>;
@@ -81,7 +82,21 @@ const CreatePinModal = (props: modalProps) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (inputPinContents.length >= 1) {
-      //post 요청
+      axios
+        .post(
+          'https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/pin',
+          {
+            contents: inputPinContents,
+            latitude,
+            longitude,
+          }
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(res => {
+          console.log(res);
+        });
     }
   };
 
