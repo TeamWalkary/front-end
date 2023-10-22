@@ -2,78 +2,63 @@ import { styled } from "styled-components";
 import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
 import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
 import { ReactComponent as Pin } from "../../assests/pin.svg";
-import { Link } from "react-router-dom";
 import SideNav from "./SideNav";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Today from "../Common/Today";
 import MapView from "./MapView";
 
+
 const MainView = () => {
-  const today = new Date();
-
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDay();
-  const date = today.getDate();
-
   const [sideNavOpen, setSideNavOpen] = useState(false);
-
-  const getKorDay = (day: number) => {
-    switch (day) {
-      case 0:
-        return "일";
-        break;
-      case 1:
-        return "월";
-        break;
-      case 2:
-        return "화";
-        break;
-      case 3:
-        return "수";
-        break;
-      case 4:
-        return "목";
-        break;
-      case 5:
-        return "금";
-        break;
-      case 6:
-        return "토";
-        break;
-
-      default:
-        break;
-    }
-  };
+  const [isPin, setIsPin] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <MainArea>
       {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
       <MainHeader>
         <MenuBtn onClick={() => setSideNavOpen(true)} />
-        <span>
-          {year}. {month}. {date}. ({getKorDay(day)})
-        </span>
+        <Today />
         <Calendar />
       </MainHeader>
+      <div>
+        <section>
       <MapArea><MapView/></MapArea>
       <RecordArea>
         <RecordDetail>
           <RecordTitleArea>
-            <RecordTitle className="active">핀 기록</RecordTitle>
-            <RecordTitle>
+            <RecordTitle
+              className={isPin ? "active" : ""}
+              onClick={() => setIsPin(true)}
+            >
+              핀 기록
+            </RecordTitle>
+            <RecordTitle
+              className={isPin ? "" : "active"}
+              onClick={() => setIsPin(false)}
+            >
               일기
-              <Link to="/diary">일기쓰기</Link>
             </RecordTitle>
           </RecordTitleArea>
           <EmptyView>
-            <Pin style={{ opacity: "0.2" }} />
-            지도에 있는 버튼을 눌러
-            <br />
-            핀을 생성해보세요!
+            {isPin ? (
+              <>
+                <Pin style={{ opacity: "0.2" }} />
+                지도에 있는 버튼을 눌러
+                <br />
+                핀을 생성해보세요!
+              </>
+            ) : (
+              <>
+                아직 오늘의 일기가 없네요!
+                <br />
+                <DiaryBtn onClick={() => navigate("/diary")}>일기쓰기</DiaryBtn>
+              </>
+            )}
           </EmptyView>
-        </RecordDetail>
-      </RecordArea>
+        </section>
+      </div>
     </MainArea>
   );
 };
@@ -88,10 +73,13 @@ const MainHeader = styled.header`
   padding: 0.5rem 1.6rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: 700;
   line-height: 2.4rem;
   font-size: 1.4rem;
   letter-spacing: -0.021rem;
+  height: 4rem;
+  box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.08);
 `;
 
 const MapArea = styled.div`
@@ -99,8 +87,6 @@ const MapArea = styled.div`
   height: 23.2rem;
   background-color: skyblue;
 `;
-
-const RecordArea = styled.div``;
 
 const RecordTitleArea = styled.div`
   display: flex;
@@ -118,8 +104,6 @@ const RecordTitle = styled.div`
   }
 `;
 
-const RecordDetail = styled.section``;
-
 const EmptyView = styled.div`
   margin-top: 11.5rem;
   display: flex;
@@ -131,4 +115,15 @@ const EmptyView = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   flex-direction: column;
+`;
+
+const DiaryBtn = styled.button`
+  display: inline-flex;
+  padding: 0.8rem 5.2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 99px;
+  background: #333;
+  color: white;
 `;
