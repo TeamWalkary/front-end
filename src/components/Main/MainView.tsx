@@ -8,15 +8,19 @@ import { useState } from 'react';
 import CreatePinModal from './CreatePinModal';
 import MapView from './MapView';
 import Today from '../Common/Today';
+import { useRecoilValue } from 'recoil';
+import { position } from '../../store/atom';
 
 const MainView = () => {
+  const Position = useRecoilValue(position);
+  const { currentLatitude, currentLongitude } = Position;
   const [modalShow, setModalShow] = useState<Boolean>(false);
 
-  const handlePinButton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    setModalShow(true);
-  };
+  // const handlePinButton = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   setModalShow(true);
+  // };
 
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
@@ -28,13 +32,12 @@ const MainView = () => {
         <>
           <CreatePinModal
             setModalShow={setModalShow}
-            latitude={33.450701}
-            longitude={126.570667}
+            latitude={currentLatitude}
+            longitude={currentLongitude}
           ></CreatePinModal>
         </>
       ) : (
         <>
-          <PinButton onClick={handlePinButton}> 핀 버튼</PinButton>
           <MainArea>
             {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
             <MainHeader>
@@ -45,7 +48,7 @@ const MainView = () => {
             <div>
               <section>
                 <MapArea>
-                  <MapView />
+                  <MapView setModalShow={setModalShow} />
                 </MapArea>
                 <RecordTitleArea>
                   <RecordTitle
@@ -87,59 +90,6 @@ const MainView = () => {
     </>
   );
 };
-// const MainView = () => {
-//   const [sideNavOpen, setSideNavOpen] = useState(false);
-//   const [isPin, setIsPin] = useState(true);
-//   const navigate = useNavigate();
-
-//   return (
-//     <MainArea>
-//       {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
-//       <MainHeader>
-//         <MenuBtn onClick={() => setSideNavOpen(true)} />
-//         <Today />
-//         <Calendar />
-//       </MainHeader>
-//       <div>
-//         <section>
-//           <MapArea>
-//             <MapView />
-//           </MapArea>
-//           <RecordTitleArea>
-//             <RecordTitle
-//               className={isPin ? "active" : ""}
-//               onClick={() => setIsPin(true)}
-//             >
-//               핀 기록
-//             </RecordTitle>
-//             <RecordTitle
-//               className={isPin ? "" : "active"}
-//               onClick={() => setIsPin(false)}
-//             >
-//               일기
-//             </RecordTitle>
-//           </RecordTitleArea>
-//           <EmptyView>
-//             {isPin ? (
-//               <>
-//                 <Pin style={{ opacity: "0.2" }} />
-//                 지도에 있는 버튼을 눌러
-//                 <br />
-//                 핀을 생성해보세요!
-//               </>
-//             ) : (
-//               <>
-//                 아직 오늘의 일기가 없네요!
-//                 <br />
-//                 <DiaryBtn onClick={() => navigate("/diary")}>일기쓰기</DiaryBtn>
-//               </>
-//             )}
-//           </EmptyView>
-//         </section>
-//       </div>
-//     </MainArea>
-//   );
-// };
 
 export default MainView;
 
