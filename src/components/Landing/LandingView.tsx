@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as Logo } from "../../assests/logo.svg";
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
 import { useNavigate } from "react-router-dom";
 
 const LandingView = () => {
@@ -10,7 +10,7 @@ const LandingView = () => {
   };
   return (
     <Landing>
-      <Logo width="183" height="48" />
+      <Logo width="185" height="48" />
       <LandingMsg>
         내가 다녀간 장소로 <br />
         적어보는 오늘 하루의 일기

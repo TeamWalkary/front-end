@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { ReactComponent as Logo } from "../../assests/logo.svg";
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
 import { ReactComponent as CloseBtn } from "../../assests/CloseBtn.svg";
 import { useNavigate } from "react-router-dom";
-import LoginData from "./LoginData";
+import SubmitForms from "./SubmitForms";
 
 const LoginView = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const LoginView = () => {
         일상에서 만나는 장소에 핀을 꽂아 <br />
         하루를 의미있게 기억하세요.
       </LoginMsg>
-      <LoginData />
+      <SubmitForms />
       <SignUpBtn onClick={signUpHandler}>회원가입</SignUpBtn>
       <CloseBtnArea onClick={closeHandler}>
         <CloseBtn />

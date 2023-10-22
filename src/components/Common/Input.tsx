@@ -2,19 +2,31 @@ import { styled } from "styled-components";
 
 interface inputDataProps {
   name: string;
+  title: string;
   type: string;
   placeholder: string;
   required?: boolean;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isValid: boolean;
+  validText: string;
 }
 
 const Input = (props: inputDataProps) => {
-  const { name, type, placeholder, required, handleInput, isValid } = props;
+  const {
+    name,
+    title,
+    type,
+    placeholder,
+    required,
+    handleInput,
+    isValid,
+    validText,
+  } = props;
+  // const checkPw = title === "비밀번호 확인";
 
   return (
     <LoginWrapper>
-      <LoginLabel>{placeholder}</LoginLabel>
+      <LoginLabel>{title}</LoginLabel>
       <LoginInput
         id={name}
         type={type}
@@ -24,7 +36,10 @@ const Input = (props: inputDataProps) => {
         onChange={(e) => handleInput(e)}
       />
       <IdInputValid $isValid={isValid}>
-        {placeholder}를 입력해주세요.
+        {/* {checkPw
+          ? "입력하신 비밀번호와 일치하지 않습니다."
+          : `${title}를 입력해주세요.`} */}
+        {validText}
       </IdInputValid>
     </LoginWrapper>
   );
@@ -42,7 +57,7 @@ const LoginWrapper = styled.div`
 const IdInputValid = styled.p<{ $isValid: boolean }>`
   color: #ff0000;
   font-size: 1.2rem;
-  opacity: ${(props) => (props.$isValid ? 0 : 1)};
+  visibility: ${(props) => (props.$isValid ? "hidden" : "visible")};
 `;
 
 const LoginLabel = styled.form`
@@ -59,7 +74,8 @@ const LoginInput = styled.input`
   height: 2.8rem;
   gap: 0.4rem;
   border-bottom: 1px solid #dcdcdc;
-  &:active {
-    border-bottom: 1px solid #333;
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid #333;
   }
 `;
