@@ -2,6 +2,8 @@ import { styled } from "styled-components";
 import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
 import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
 import { ReactComponent as Pin } from "../../assests/pin.svg";
+import SideNav from "./SideNav";
+import { useState } from "react";
 
 const MainView = () => {
   const today = new Date();
@@ -10,6 +12,8 @@ const MainView = () => {
   const month = today.getMonth() + 1;
   const day = today.getDay();
   const date = today.getDate();
+
+  const [sideNavOpen, setSideNavOpen] = useState(false);
 
   const getKorDay = (day: number) => {
     switch (day) {
@@ -42,8 +46,9 @@ const MainView = () => {
 
   return (
     <MainArea>
+      {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
       <MainHeader>
-        <MenuBtn />
+        <MenuBtn onClick={() => setSideNavOpen(true)} />
         <span>
           {year}. {month}. {date}. ({getKorDay(day)})
         </span>
@@ -90,9 +95,7 @@ const MapArea = styled.div`
   background-color: skyblue;
 `;
 
-const RecordArea = styled.div`
-  height: 100%;
-`;
+const RecordArea = styled.div``;
 
 const RecordTitleArea = styled.div`
   display: flex;
@@ -116,7 +119,6 @@ const EmptyView = styled.div`
   margin-top: 11.5rem;
   display: flex;
   width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
   color: #a1a1a1;
