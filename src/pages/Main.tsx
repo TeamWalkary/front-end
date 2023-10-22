@@ -1,8 +1,7 @@
-import React from "react";
-import MapView from "../components/Main/MapView";
+import MainView from "../components/Main/MainView";
 
 const Main = () => {
-  return (<><MapView/></>);
+  return <MainView />;
 };
 
 export default Main;

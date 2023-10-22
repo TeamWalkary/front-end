@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         -webkit-font-smoothing: antialiased;
+        font-family: 'Pretendard', sans-serif;
         line-height: 1.5;
     }
     @font-face {
@@ -23,8 +24,11 @@ const GlobalStyle = createGlobalStyle`
           format('woff');
         font-weight: 400;
         font-style: normal;
-      }
+    }
 
+    path {
+        fill: currentColor;
+    }
 `;
 
 export default GlobalStyle;
