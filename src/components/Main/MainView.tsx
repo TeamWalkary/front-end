@@ -5,6 +5,7 @@ import { ReactComponent as Pin } from "../../assests/pin.svg";
 import { Link } from "react-router-dom";
 import SideNav from "./SideNav";
 import { useState } from "react";
+import MapView from "./MapView";
 
 const MainView = () => {
   const today = new Date();
@@ -55,7 +56,7 @@ const MainView = () => {
         </span>
         <Calendar />
       </MainHeader>
-      <MapArea></MapArea>
+      <MapArea><MapView/></MapArea>
       <RecordArea>
         <RecordDetail>
           <RecordTitleArea>
