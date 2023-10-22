@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
+//import axios from "axios";
+//import { realReq } from "../../api/axios";
 
 export default function WriteDiary() {
   const [title, setTitle] = useState("");
@@ -29,8 +31,25 @@ export default function WriteDiary() {
     }
   };
 
-  const handleSubmit = () => {
-    // post api
+  const handleSubmit = async () => {
+    // const postData = {
+    //   title: title,
+    //   text: text,
+    //   imageUrl: imageUrl,
+    // };
+    try {
+      // const response = await axios.post(
+      //   "http://15.165.134.29:8080/apis/diary",
+      //   postData
+      // );
+      // const response = await realReq.POST(
+      //   "http://15.165.134.29:8080/apis/diary",
+      //   postData
+      // );
+      // console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
