@@ -27,6 +27,41 @@ export default function MainViewDairy(props: MainViewDairyProps) {
       .catch((error) => console.error(`Error: ${error}`));
   }, []);
 
+  const handleEdit = () => {
+    // axios
+    //   .put(
+    //     `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
+    //     {
+    //       headers: {
+    //         Authorization: token,
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => console.error(`Error: ${error}`));
+  };
+
+  // const handleDelete = () => {
+  //   //if (!diaryData || diaryData.id === null) return;
+
+  //   axios
+  //     .delete(
+  //       `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log(response);
+  //       console.log("삭제되었습니다!");
+  //     })
+  //     .catch((error) => console.error(`Error: ${error}`));
+  // };
+
   if (!diaryData)
     return (
       <EmptyWrapper>
@@ -35,10 +70,28 @@ export default function MainViewDairy(props: MainViewDairyProps) {
       </EmptyWrapper>
     );
 
-  return <Container>{diaryData && JSON.stringify(diaryData)}</Container>;
+  return (
+    <Container>
+      {diaryData && JSON.stringify(diaryData)}
+      <EditButton onClick={handleEdit}>수정</EditButton>
+      <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
+    </Container>
+  );
 }
 
 const Container = styled.section``;
+
+const EditButton = styled.button`
+  background: #333;
+  color: white;
+  padding: 0.5rem;
+`;
+
+const DeleteButton = styled.button`
+  background: red;
+  color: white;
+  padding: 0.5rem;
+`;
 
 const EmptyWrapper = styled.section`
   display: flex;
