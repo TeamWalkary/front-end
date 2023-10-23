@@ -48,7 +48,7 @@ const Input = (props: inputDataProps) => {
 
 export default Input;
 
-const LoginWrapper = styled.form`
+const LoginWrapper = styled.div`
   & + & {
     margin-top: 1.2rem;
   }
