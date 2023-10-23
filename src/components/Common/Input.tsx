@@ -4,7 +4,6 @@ interface inputDataProps {
   name: string;
   title: string;
   type: string;
-  placeholder: string;
   required?: boolean;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isValid: boolean;
@@ -12,16 +11,8 @@ interface inputDataProps {
 }
 
 const Input = (props: inputDataProps) => {
-  const {
-    name,
-    title,
-    type,
-    placeholder,
-    required,
-    handleInput,
-    isValid,
-    validText,
-  } = props;
+  const { name, title, type, required, handleInput, isValid, validText } =
+    props;
   // const checkPw = title === "비밀번호 확인";
 
   return (
@@ -31,7 +22,6 @@ const Input = (props: inputDataProps) => {
         id={name}
         type={type}
         name={name}
-        placeholder={placeholder}
         required={required}
         onChange={(e) => handleInput(e)}
         autoComplete="off"

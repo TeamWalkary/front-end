@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import useInputValue from "../../hooks/useInputValue";
-import Input from "../Common/Input";
-import Button from "../Common/Button";
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import useInputValue from '../../hooks/useInputValue';
+import Input from '../Common/Input';
+import Button from '../Common/Button';
+import axios from 'axios';
 
 const SubmitForms = () => {
   const initInputValue = {
-    id: "",
-    pw: "",
-    checkPassword: "",
+    id: '',
+    pw: '',
+    checkPassword: '',
   };
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
@@ -28,14 +28,14 @@ const SubmitForms = () => {
         userId: inputValue.id,
         password: inputValue.pw,
       })
-      .then((data) => {
+      .then(data => {
         if (data.status === 200) {
-          navigate("/login");
+          navigate('/login');
         } else if (data.status === 400) {
-          alert("아이디 또는 비밀번호 다시 확인해주세요.");
+          alert('아이디 또는 비밀번호 다시 확인해주세요.');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -43,39 +43,39 @@ const SubmitForms = () => {
   return (
     <>
       <Input
-        name={"id"}
-        type={"text"}
-        title={"아이디"}
-        placeholder={"아이디"}
-        validText={"아이디를 확인해주세요."}
+        name={'id'}
+        type={'text'}
+        title={'아이디'}
+        placeholder={'아이디'}
+        validText={'아이디를 확인해주세요.'}
         required
         handleInput={handleInput}
         isValid={idValid}
       />
       <Input
-        name={"pw"}
-        type={"password"}
-        title={"비밀번호"}
-        placeholder={"비밀번호"}
-        validText={"비밀번호를를 확인해주세요."}
+        name={'pw'}
+        type={'password'}
+        title={'비밀번호'}
+        placeholder={'비밀번호'}
+        validText={'비밀번호를를 확인해주세요.'}
         required
         handleInput={handleInput}
         isValid={true}
       />
       <Input
-        name={"checkPassword"}
-        type={"password"}
-        title={"비밀번호 확인"}
-        placeholder={"비밀번호를 한 번 더 입력해주세요."}
-        validText={"입력하신 비밀번호와 일치하지 않습니다."}
+        name={'checkPassword'}
+        type={'password'}
+        title={'비밀번호 확인'}
+        placeholder={'비밀번호를 한 번 더 입력해주세요.'}
+        validText={'입력하신 비밀번호와 일치하지 않습니다.'}
         required
         handleInput={handleInput}
         isValid={checkPw}
       />
       <Button
-        placeholder={"가입 완료하기"}
+        placeholder={'가입 완료하기'}
         isValid={isValid}
-        postUserData={postUserData}
+        onclick={postUserData}
       />
     </>
   );

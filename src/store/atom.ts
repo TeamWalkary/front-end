@@ -12,3 +12,19 @@ export const position = atom<positionType>({
     currentLongitude: 0,
   },
 });
+
+export interface pinResponseType {
+  pins: pinListType[];
+}
+export interface pinListType {
+  id: number;
+  contents: string;
+  latitude: number;
+  longitude: number;
+  stampTime: string;
+}
+
+export const pinList = atom<pinListType[]>({
+  key: 'pinList',
+  default: [],
+});

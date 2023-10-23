@@ -3,18 +3,20 @@ import { styled } from "styled-components";
 interface inputDataProps {
   placeholder: string;
   isValid: boolean;
-  postUserData: () => void;
+  onclick?: () => void;
+  width?: number;
 }
 
 const Button = (props: inputDataProps) => {
-  const { placeholder, isValid, postUserData } = props;
+  const { placeholder, isValid, onclick, width } = props;
 
   return (
     <LoginBtn
       type="submit"
-      onClick={postUserData}
+      onClick={onclick}
       $isValid={isValid}
       disabled={!isValid}
+      $width={width}
     >
       {placeholder}
     </LoginBtn>
@@ -23,12 +25,16 @@ const Button = (props: inputDataProps) => {
 
 export default Button;
 
-const LoginBtn = styled.button<{ $isValid: boolean }>`
+const LoginBtn = styled.button<{
+  $isValid: boolean;
+  $width?: number;
+}>`
+  cursor: pointer;
   margin-top: 3.2rem;
   border-radius: 99px;
   background-color: ${(props) => (props.$isValid ? "#333333" : "#DCDCDC")};
   display: flex;
-  width: 29.6rem;
+  width: ${(props) => (props.$width ? "16rem" : "29.6rem")};
   padding: 0.8rem 5.2rem;
   justify-content: center;
   align-items: center;

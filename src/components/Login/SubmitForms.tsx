@@ -44,7 +44,6 @@ const SubmitForms = () => {
         name={"id"}
         type={"text"}
         title={"아이디"}
-        placeholder={"아이디"}
         validText={"아이디를 확인해주세요."}
         required
         handleInput={handleInput}
@@ -54,17 +53,12 @@ const SubmitForms = () => {
         name={"pw"}
         type={"password"}
         title={"비밀번호"}
-        placeholder={"비밀번호"}
         validText={"비밀번호를를 확인해주세요."}
         required
         handleInput={handleInput}
         isValid={true}
       />
-      <Button
-        placeholder={"로그인"}
-        isValid={isValid}
-        postUserData={postUserData}
-      />
+      <Button placeholder={"로그인"} isValid={isValid} onclick={postUserData} />
     </>
   );
 };

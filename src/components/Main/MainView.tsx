@@ -9,11 +9,13 @@ import CreatePinModal from "./CreatePinModal";
 import MapView from "./MapView";
 import Today from "../Common/Today";
 import { useRecoilValue } from "recoil";
-import { position } from "../../store/atom";
+import { position, pinList } from "../../store/atom";
+import PinList from "../PinDiary/PinList";
 import MainViewDairy from "./MainViewDairy";
 
 const MainView = () => {
   const Position = useRecoilValue(position);
+  const oneDayPinList = useRecoilValue(pinList);
   const { currentLatitude, currentLongitude } = Position;
   const [modalShow, setModalShow] = useState<Boolean>(false);
 
@@ -46,12 +48,15 @@ const MainView = () => {
           <MainArea>
             {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
             <MainHeader>
-              <MenuBtn onClick={() => setSideNavOpen(true)} />
+              <MenuBtn
+                onClick={() => setSideNavOpen(true)}
+                style={{ cursor: "pointer" }}
+              />
               <Today />
               <Calendar />
             </MainHeader>
-            <div>
-              <section>
+            <SectionWrapper>
+              <SectionArea>
                 <MapArea>
                   <MapView setModalShow={setModalShow} />
                 </MapArea>
@@ -69,19 +74,26 @@ const MainView = () => {
                     일기
                   </RecordTitle>
                 </RecordTitleArea>
-
-                {isPin ? (
-                  <EmptyView>
-                    <Pin style={{ opacity: "0.2" }} />
-                    지도에 있는 버튼을 눌러
-                    <br />
-                    핀을 생성해보세요!
-                  </EmptyView>
+                {isPin && oneDayPinList.length > 0 ? (
+                  <>
+                    <PinList />
+                  </>
                 ) : (
-                  <MainViewDairy handleChangePin={handleChangePin} />
+                  <EmptyView>
+                    {isPin ? (
+                      <>
+                        <Pin style={{ opacity: "0.2" }} />
+                        지도에 있는 버튼을 눌러
+                        <br />
+                        핀을 생성해보세요!
+                      </>
+                    ) : (
+                      <MainViewDairy handleChangePin={handleChangePin} />
+                    )}
+                  </EmptyView>
                 )}
-              </section>
-            </div>
+              </SectionArea>
+            </SectionWrapper>
           </MainArea>
         </>
       )}
@@ -91,7 +103,6 @@ const MainView = () => {
 
 export default MainView;
 
-const PinButton = styled.button``;
 const MainArea = styled.div`
   height: 90vh;
 `;
@@ -115,6 +126,13 @@ const MapArea = styled.div`
   background-color: skyblue;
 `;
 
+const SectionWrapper = styled.div`
+  height: 100%;
+`;
+
+const SectionArea = styled.section`
+  height: 100%;
+`;
 const RecordTitleArea = styled.div`
   display: flex;
 `;
@@ -126,8 +144,13 @@ const RecordTitle = styled.div`
   padding: 1.2rem 0;
   border-bottom: 1px solid #333;
   opacity: 0.2;
+  cursor: pointer;
+  pointer-events: auto;
+
   &.active {
     opacity: 1;
+    font-weight: 700;
+    color: #333333;
   }
 `;
 

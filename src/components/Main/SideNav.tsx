@@ -23,9 +23,13 @@ const SideNav = ({ setSideNavOpen }: sideNavPropsType) => {
           <CloseBtn color="white" onClick={() => setSideNavOpen(false)} />
         </NavBarHeader>
         <NavMenu>
-          <Navitem>홈</Navitem>
-          <Navitem>핀 모아보기</Navitem>
-          <Navitem>일기 모아보기</Navitem>
+          <Navitem onClick={() => navigate("/main")}>홈</Navitem>
+          <Navitem onClick={() => window.alert("해당 기능은 준비중입니다.")}>
+            핀 모아보기
+          </Navitem>
+          <Navitem onClick={() => navigate("/collectDiary")}>
+            일기 모아보기
+          </Navitem>
         </NavMenu>
         <LogOut onClick={handleLogout}>로그아웃</LogOut>
       </NavArea>
@@ -71,6 +75,7 @@ const Navitem = styled.li`
   padding: 1.2rem 2rem;
   font-size: 1.4rem;
   line-height: 2rem;
+  cursor: pointer;
   &:active {
     font-weight: 800;
   }
