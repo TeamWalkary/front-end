@@ -36,7 +36,7 @@ const PinList = () => {
 
 const PinRecordArea = styled.div`
   width: 100%;
-  height: 100%;
+  height: 55%;
   padding: 2rem;
   margin-bottom: 2rem;
 `;
@@ -60,7 +60,7 @@ const UpdateButton = styled.button`
 
 const PinListArea = styled.div`
   height: 100%;
-  overflow: auto;
+  overflow: scroll;
 
   &::-webkit-scrollbar {
     display: none;
@@ -96,7 +96,6 @@ const NumberPinWrapper = styled.span`
 `;
 
 const NumberText = styled.span`
-  width: 0.6rem;
   height: 1.8rem;
   margin-top: 0.1rem;
   font-size: 1.2rem;
