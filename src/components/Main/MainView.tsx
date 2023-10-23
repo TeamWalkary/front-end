@@ -1,30 +1,31 @@
-import { styled } from 'styled-components';
-import { ReactComponent as MenuBtn } from '../../assests/menuBtn.svg';
-import { ReactComponent as Calendar } from '../../assests/Calendar.svg';
-import { ReactComponent as Pin } from '../../assests/pin.svg';
-import { Link, useNavigate } from 'react-router-dom';
-import SideNav from './SideNav';
-import { useState } from 'react';
-import CreatePinModal from './CreatePinModal';
-import MapView from './MapView';
-import Today from '../Common/Today';
-import { useRecoilValue } from 'recoil';
-import { position } from '../../store/atom';
+import { styled } from "styled-components";
+import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
+import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
+import { ReactComponent as Pin } from "../../assests/pin.svg";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import SideNav from "./SideNav";
+import { useState } from "react";
+import CreatePinModal from "./CreatePinModal";
+import MapView from "./MapView";
+import Today from "../Common/Today";
+import { useRecoilValue } from "recoil";
+import { position } from "../../store/atom";
+import MainViewDairy from "./MainViewDairy";
 
 const MainView = () => {
   const Position = useRecoilValue(position);
   const { currentLatitude, currentLongitude } = Position;
   const [modalShow, setModalShow] = useState<Boolean>(false);
 
-  // const handlePinButton = (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   setModalShow(true);
-  // };
+  const location = useLocation();
+  const todayDiary = location.state?.todayDiary;
 
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
-  const navigate = useNavigate();
+
+  // if (todayDiary) {
+  //   setIsPin(false);
+  // }
 
   return (
     <>
@@ -52,36 +53,29 @@ const MainView = () => {
                 </MapArea>
                 <RecordTitleArea>
                   <RecordTitle
-                    className={isPin ? 'active' : ''}
+                    className={isPin ? "active" : ""}
                     onClick={() => setIsPin(true)}
                   >
                     핀 기록
                   </RecordTitle>
                   <RecordTitle
-                    className={isPin ? '' : 'active'}
+                    className={isPin ? "" : "active"}
                     onClick={() => setIsPin(false)}
                   >
                     일기
                   </RecordTitle>
                 </RecordTitleArea>
-                <EmptyView>
-                  {isPin ? (
-                    <>
-                      <Pin style={{ opacity: '0.2' }} />
-                      지도에 있는 버튼을 눌러
-                      <br />
-                      핀을 생성해보세요!
-                    </>
-                  ) : (
-                    <>
-                      아직 오늘의 일기가 없네요!
-                      <br />
-                      <DiaryBtn onClick={() => navigate('/diary')}>
-                        일기쓰기
-                      </DiaryBtn>
-                    </>
-                  )}
-                </EmptyView>
+
+                {isPin ? (
+                  <EmptyView>
+                    <Pin style={{ opacity: "0.2" }} />
+                    지도에 있는 버튼을 눌러
+                    <br />
+                    핀을 생성해보세요!
+                  </EmptyView>
+                ) : (
+                  <MainViewDairy todayDiary={todayDiary} />
+                )}
               </section>
             </div>
           </MainArea>
@@ -144,15 +138,4 @@ const EmptyView = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   flex-direction: column;
-`;
-
-const DiaryBtn = styled.button`
-  display: inline-flex;
-  padding: 0.8rem 5.2rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.4rem;
-  border-radius: 99px;
-  background: #333;
-  color: white;
 `;
