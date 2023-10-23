@@ -75,7 +75,7 @@ const SubmitForms = () => {
       <Button
         placeholder={'가입 완료하기'}
         isValid={isValid}
-        postUserData={postUserData}
+        onclick={postUserData}
       />
     </>
   );

@@ -60,11 +60,7 @@ const SubmitForms = () => {
         handleInput={handleInput}
         isValid={true}
       />
-      <Button
-        placeholder={'로그인'}
-        isValid={isValid}
-        postUserData={postUserData}
-      />
+      <Button placeholder={'로그인'} isValid={isValid} onclick={postUserData} />
     </>
   );
 };

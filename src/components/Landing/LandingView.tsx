@@ -12,8 +12,8 @@ const LandingView = () => {
     <Landing>
       <Logo width="185" height="48" />
       <LandingMsg>
-        내가 다녀간 장소로 <br />
-        적어보는 오늘 하루의 일기
+        발자취 따라 써보는 <br />
+        오늘 하루 일기
       </LandingMsg>
       <LandingBtn onClick={clickHandler}>시작하기</LandingBtn>
     </Landing>

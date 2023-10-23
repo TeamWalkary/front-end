@@ -17,11 +17,7 @@ const LoginView = () => {
 
   return (
     <LoginArea>
-      <Logo width="183" height="48" />
-      <LoginMsg>
-        일상에서 만나는 장소에 핀을 꽂아 <br />
-        하루를 의미있게 기억하세요.
-      </LoginMsg>
+      <Logo width="183" height="48" style={{ marginBottom: "10rem" }} />
       <SubmitForms />
       <SignUpBtn onClick={signUpHandler}>회원가입</SignUpBtn>
       <CloseBtnArea onClick={closeHandler}>
@@ -40,17 +36,6 @@ const LoginArea = styled.div`
   height: 90vh;
   flex-direction: column;
   position: relative;
-`;
-
-const LoginMsg = styled.div`
-  margin: 1.6rem 0 4.8rem 0;
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 150% */
-  letter-spacing: -0.368px;
 `;
 
 const SignUpBtn = styled.div`
