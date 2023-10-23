@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as Closebutton } from '../../assests/closebutton.svg';
+import { ReactComponent as Clearbutton } from '../../assests/clearBtn.svg';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -129,7 +130,7 @@ const CreatePinModal = (props: modalProps) => {
             <FirstTextContainer>
               <FirstText>핀 추가하기</FirstText>
               <CloseButtonContainer onClick={handleClosebutton}>
-                <Closebutton width='13.5' height='13.5'></Closebutton>
+                <Closebutton width='24' height='24'></Closebutton>
               </CloseButtonContainer>
             </FirstTextContainer>
             <SecondText>이 장소에 대해 알려주세요. (20자 이내)</SecondText>
@@ -140,14 +141,22 @@ const CreatePinModal = (props: modalProps) => {
                 onChange={handlePinContentsInput}
                 value={inputPinContents}
                 maxLength={20}
+                placeholder={
+                  inputPinContents.length === 0 ? '아늑하고 포근한 우리집' : ''
+                }
               />
               <CloseButtonContainer onClick={handleClearbutton}>
-                <Closebutton width='13.5' height='13.5'></Closebutton>
+                <Clearbutton width='13.5' height='13.5'></Clearbutton>
               </CloseButtonContainer>
             </InputWrapper>
           </SecondSection>
           <ThirdSection>
-            <SaveButton onClick={handleSaveButton}>완료</SaveButton>
+            <SaveButton
+              disabled={inputPinContents.length === 0 ? true : false}
+              onClick={handleSaveButton}
+            >
+              완료
+            </SaveButton>
           </ThirdSection>
         </ModalContainer>
       </Container>
@@ -164,39 +173,37 @@ const Container = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  width: 323px;
-  height: 206px;
+  width: 32.3rem;
+  height: 20.6rem;
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 2rem;
   display: flex;
   flex-direction: column;
 `;
 
 const FirstSection = styled.div`
-  padding: 20px;
-`;
-const SecondSection = styled.div`
-  padding: 0px 20px 0px 20px;
-`;
-const ThirdSection = styled.div`
+  padding: 2rem;
+  justify-content: space-between;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
 `;
+
 const FirstTextContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
-  width: 283px;
-  height: 24px;
+  padding: 0;
+  width: 28.3rem;
+  height: 2.4rem;
+  margin-bottom: 0.8rem;
 `;
 
 const FirstText = styled.p`
+  font-size: 1.6rem;
   font-weight: 700;
-  font-family: 'Pretendard-Regular';
+  line-height: 2.4rem;
+  letter-spacing: -0.023rem;
   text-align: center;
   color: #333333;
 `;
@@ -206,10 +213,15 @@ const CloseButtonContainer = styled.button`
   border: none;
 `;
 
+const SecondSection = styled.div`
+  width: 32.3rem;
+  height: 4rem;
+  padding: 0 2rem 0 2rem;
+`;
+
 const SecondText = styled.p`
-  font-family: 'Pretendard-Regular';
   font-weight: 400;
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #a1a1a1;
 `;
 
@@ -218,14 +230,15 @@ const InputWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
-  width: 283px;
-  height: 24px;
+  padding: 0.8rem 0 0.8rem 0;
+  width: 28.3rem;
+  height: 4rem;
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 0.5px solid #dcdcdc;
+  border-bottom: 0.05rem solid #dcdcdc;
 `;
+
 const Input = styled.input`
   display: flex;
   flex-direction: row;
@@ -233,24 +246,51 @@ const Input = styled.input`
   align-items: center;
   border: none;
   background-color: inherit;
-  padding: 0px;
-  width: 283px;
-  height: 24px;
-  font-family: 'Pretendard-Regular';
+  padding: 0;
+  width: 28.3rem;
+  height: 2rem;
   font-weight: 400;
-  font-size: 16px;
-  color: #dcdcdc;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  color: #333333;
+
+  &::placeholder {
+    color: dcdcdc;
+  }
+
+  &:focus {
+    &::placeholder {
+      color: transparent;
+    }
+  }
+`;
+
+const ThirdSection = styled.div`
+  width: 32.3rem;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 2rem 0;
 `;
 
 const SaveButton = styled.button`
-  padding: 8px 52px;
-  width: 160px;
-  height: 40px;
+  padding: 0.8rem, 5.2rem;
+  width: 16rem;
+  height: 4rem;
   background: #333333;
-  border-radius: 99px;
-  font-family: 'Pretendard-Regular';
+  border-radius: 9.9rem;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
   color: #dcdcdc;
+  border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    background: #dcdcdc;
+    color: #ffffff;
+  }
 `;
+
 export default CreatePinModal;

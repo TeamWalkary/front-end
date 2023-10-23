@@ -40,8 +40,8 @@ const MainView = () => {
               <Today />
               <Calendar />
             </MainHeader>
-            <div>
-              <section>
+            <SectionWrapper>
+              <SectionArea>
                 <MapArea>
                   <MapView setModalShow={setModalShow} />
                 </MapArea>
@@ -83,8 +83,8 @@ const MainView = () => {
                     )}
                   </EmptyView>
                 )}
-              </section>
-            </div>
+              </SectionArea>
+            </SectionWrapper>
           </MainArea>
         </>
       )}
@@ -94,7 +94,6 @@ const MainView = () => {
 
 export default MainView;
 
-const PinButton = styled.button``;
 const MainArea = styled.div`
   height: 90vh;
 `;
@@ -118,6 +117,13 @@ const MapArea = styled.div`
   background-color: skyblue;
 `;
 
+const SectionWrapper = styled.div`
+  height: 100%;
+`;
+
+const SectionArea = styled.section`
+  height: 100%;
+`;
 const RecordTitleArea = styled.div`
   display: flex;
 `;
@@ -129,8 +135,11 @@ const RecordTitle = styled.div`
   padding: 1.2rem 0;
   border-bottom: 1px solid #333;
   opacity: 0.2;
+
   &.active {
     opacity: 1;
+    font-weight: 700;
+    color: #333333;
   }
 `;
 

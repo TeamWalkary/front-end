@@ -2,7 +2,6 @@ import { useRecoilValue } from 'recoil';
 import { pinList } from '../../store/atom';
 import { styled } from 'styled-components';
 import { ReactComponent as NumberPin } from '../../assests/numberPin.svg';
-import { useEffect } from 'react';
 
 const PinList = () => {
   const oneDayPinList = useRecoilValue(pinList);
@@ -37,21 +36,23 @@ const PinList = () => {
 
 const PinRecordArea = styled.div`
   width: 100%;
-  height: 400px;
-  padding: 20px;
+  height: 100%;
+  padding: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const UpdateArea = styled.div`
   display: flex;
   justify-content: right;
   width: 100%;
+  margin-bottom: 0.8rem;
 `;
 
 const UpdateButton = styled.button`
-  height: 20px;
+  height: 2rem;
   font-family: Pretendard-Regular;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #a1a1a1;
   border: none;
   background-color: inherit;
@@ -59,6 +60,11 @@ const UpdateButton = styled.button`
 
 const PinListArea = styled.div`
   height: 100%;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const PinListWrapper = styled.ul`
@@ -66,25 +72,23 @@ const PinListWrapper = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  counter-reset: index;
 `;
 
 const Pin = styled.li`
   list-style: none;
-  margin: 0 0 10px 0;
+  margin: 0 0 1.2rem 0;
   padding: 0;
-  height: 40px;
+  height: 3.8rem;
   border: none;
-  counter-increment: index;
   display: flex;
   align-items: center;
 `;
 
 const NumberPinWrapper = styled.span`
-  width: 24px;
-  height: 40px;
+  width: 2.4rem;
+  height: 3.8rem;
   vertical-align: middle;
-  margin-right: 20px;
+  margin-right: 2rem;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -92,21 +96,20 @@ const NumberPinWrapper = styled.span`
 `;
 
 const NumberText = styled.span`
-  width: 8px;
-  height: 18px;
-  margin-top: 1px;
-  font-size: 12px;
+  width: 0.6rem;
+  height: 1.8rem;
+  margin-top: 0.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: initial;
   text-align: center;
   position: absolute;
   background-color: transparent;
   color: #fffefc;
-  margin-bottom: 8px;
+  margin-bottom: 0.4rem;
 `;
 
 const PinContentsWrapper = styled.div`
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
 `;
@@ -114,15 +117,15 @@ const PinContentsWrapper = styled.div`
 const PinContents = styled.div`
   font-family: Pretendard-Regular;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.4rem;
   color: #333333;
-  margin-bottom: 4px;
+  margin-bottom: 0.4rem;
 `;
 
 const PinTime = styled.div`
-  font-family: Pretendard-Regular;
   font-weight: 700;
-  font-size: 8px;
+  font-size: 0.8rem;
   color: #a1a1a1;
 `;
+
 export default PinList;
