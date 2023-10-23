@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as Logo } from "../../assests/logo.svg";
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
 import { ReactComponent as CloseBtn } from "../../assests/closeBtn.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +79,7 @@ const Navitem = styled.li`
 const LogOut = styled.div`
   position: absolute;
   bottom: 1.6rem;
-  color: #a1a1a1;
+  color: #333333;
   font-size: 1.4rem;
   line-height: 2rem;
   padding: 1.2rem 2rem;

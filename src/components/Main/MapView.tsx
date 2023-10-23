@@ -53,7 +53,7 @@ const MapView = (props: modalProps) => {
     };
     axios
       .get<pinResponseType>(
-        'https://api.walkary.fun/apis/main/maps-pin',
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/maps-pin`,
         config
       )
       .then(res => {

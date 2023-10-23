@@ -89,7 +89,8 @@ const CreatePinModal = (props: modalProps) => {
     if (inputPinContents.length >= 1) {
       axios
         .post(
-          'https://api.walkary.fun/apis/pin',
+          `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
+          `,
           {
             contents: inputPinContents,
             latitude,

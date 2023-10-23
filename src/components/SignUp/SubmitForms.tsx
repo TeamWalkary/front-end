@@ -23,9 +23,8 @@ const SubmitForms = () => {
   const navigate = useNavigate();
 
   const postUserData = () => {
-    // `${import.meta.env.REACT_APP_IP}/apis/signUp`
     axios
-      .post('https://api.walkary.fun/apis/signup', {
+      .post(`${import.meta.env.VITE_APP_BASE_URL}/apis/signup`, {
         userId: inputValue.id,
         password: inputValue.pw,
       })
