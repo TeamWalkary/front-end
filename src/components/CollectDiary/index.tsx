@@ -39,13 +39,12 @@ const CollectDiaryView = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-
-        // if (data.status === 200) {
-        //  setAllDiaryData(res.diary);
-        // } else if (data.status === 400) {
-        //  이걸 어떻게 처리하징...
-        // }
+        if (res.status === 200) {
+          setAllDiaryData(res.data);
+          console.log(res.data);
+        } else if (res.status === 400) {
+          null;
+        }
       })
       .catch((res) => {
         console.log(res);
