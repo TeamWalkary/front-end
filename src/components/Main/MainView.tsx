@@ -59,7 +59,7 @@ const MainView = () => {
                     일기
                   </RecordTitle>
                 </RecordTitleArea>
-                {oneDayPinList.length > 0 ? (
+                {isPin && oneDayPinList.length > 0 ? (
                   <>
                     <PinList />
                   </>
