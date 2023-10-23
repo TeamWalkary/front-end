@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
 import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
 import { ReactComponent as Pin } from "../../assests/pin.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SideNav from "./SideNav";
 import { useState } from "react";
 import CreatePinModal from "./CreatePinModal";
@@ -11,15 +11,27 @@ import Today from "../Common/Today";
 import { useRecoilValue } from "recoil";
 import { position, pinList } from "../../store/atom";
 import PinList from "../PinDiary/PinList";
+import MainViewDairy from "./MainViewDairy";
 
 const MainView = () => {
   const Position = useRecoilValue(position);
   const oneDayPinList = useRecoilValue(pinList);
   const { currentLatitude, currentLongitude } = Position;
   const [modalShow, setModalShow] = useState<Boolean>(false);
+
+  const location = useLocation();
+  const todayDiary = location.state?.todayDiary;
+
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
-  const navigate = useNavigate();
+
+  // if (todayDiary) {
+  //   setIsPin(false);
+  // }
+
+  const handleChangePin = (v: boolean) => {
+    setIsPin(v);
+  };
 
   return (
     <>
@@ -67,24 +79,18 @@ const MainView = () => {
                     <PinList />
                   </>
                 ) : (
-                  <EmptyView>
+                  <>
                     {isPin ? (
-                      <>
+                      <EmptyView>
                         <Pin style={{ opacity: "0.2" }} />
                         지도에 있는 버튼을 눌러
                         <br />
                         핀을 생성해보세요!
-                      </>
+                      </EmptyView>
                     ) : (
-                      <>
-                        아직 오늘의 일기가 없네요!
-                        <br />
-                        <DiaryBtn onClick={() => navigate("/diary")}>
-                          일기쓰기
-                        </DiaryBtn>
-                      </>
+                      <MainViewDairy handleChangePin={handleChangePin} />
                     )}
-                  </EmptyView>
+                  </>
                 )}
               </SectionArea>
             </SectionWrapper>
@@ -159,15 +165,4 @@ const EmptyView = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   flex-direction: column;
-`;
-
-const DiaryBtn = styled.button`
-  display: inline-flex;
-  padding: 0.8rem 5.2rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.4rem;
-  border-radius: 99px;
-  background: #333;
-  color: white;
 `;

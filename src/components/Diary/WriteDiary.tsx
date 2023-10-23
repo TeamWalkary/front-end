@@ -5,12 +5,12 @@ import { ReactComponent as Picture } from "../../assests/picture.svg";
 import { useState, ChangeEvent, useRef } from "react";
 import Today from "../Common/Today";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function WriteDiary() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [validate, setValidate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,8 +43,39 @@ export default function WriteDiary() {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = () => {
-    // post api
+  const token = localStorage.getItem("token");
+  const handleSubmit = async () => {
+    if (!text || !title) {
+      alert("일기의 제목과 내용을 작성해주세요!");
+      return;
+    }
+
+    if (text.length > 500) {
+      alert("일기의 내용이 500자를 초과했습니다.");
+      return;
+    }
+
+    const postData = {
+      title: title,
+      content: text,
+      image: imageUrl,
+    };
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/diary`,
+        postData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response);
+      navigate("/main", { state: { todayDiary: true } });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -53,8 +84,9 @@ export default function WriteDiary() {
         <BackArrow onClick={() => navigate("/main")} />
         <Today />
         <Check
-          style={{ opacity: `${validate ? "1" : "0.4"}` }}
-          onClick={validate ? handleSubmit : () => {}}
+          //style={{ opacity: `${validate ? "1" : "0.4"}` }}
+          //onClick={validate ? handleSubmit : () => {}}
+          onClick={handleSubmit}
         />
       </DiaryHeader>
       <InputArea>
@@ -63,7 +95,11 @@ export default function WriteDiary() {
           value={title}
           onChange={handleChangeTitle}
         />
-        {imageUrl && <PreviewImage src={imageUrl} alt="preview" />}
+        {imageUrl && (
+          <ImageWrapper>
+            <PreviewImage src={imageUrl} alt="preview" />
+          </ImageWrapper>
+        )}
         <ContentInput
           value={text}
           onChange={handleChangeContent}
@@ -78,7 +114,7 @@ export default function WriteDiary() {
               ref={fileInputRef}
             />
           </div>
-          <div>{text.length} / 500</div>
+          <ContentLength>{text.length} / 500</ContentLength>
         </DiaryFooter>
       </InputArea>
     </Container>
@@ -86,13 +122,17 @@ export default function WriteDiary() {
 }
 
 const Container = styled.section`
-  height: 90vh;
+  height: auto;
 `;
 
+const ImageWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  margin: 2rem 0;
+`;
 const PreviewImage = styled.img`
-  margin: 2rem;
-  height: auto;
-  aspect-ratio: 16 / 9;
+  width: 33.5rem;
+  height: 18.8rem;
 `;
 
 const DiaryHeader = styled.header`
@@ -127,9 +167,8 @@ const TitleInput = styled.input`
 
 const ContentInput = styled.textarea`
   width: 100%;
-  height: 100%;
   background-color: inherit;
-  height: 60rem;
+  height: 50rem;
   border: none;
   outline: none;
   font-size: 1.4rem;
@@ -138,8 +177,22 @@ const ContentInput = styled.textarea`
 `;
 
 const DiaryFooter = styled.div`
-  width: 100%;
+  position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
+
+  width: 100%
+  height: 2.5rem
+
   color: #a1a1a1;
+  background-color: white;
+`;
+
+const ContentLength = styled.div`
+  position: fixed;
+  right: 2rem;
+  bottom: 0.2rem;
+
+  background-color: white;
 `;
