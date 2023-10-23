@@ -9,19 +9,14 @@ import CreatePinModal from './CreatePinModal';
 import MapView from './MapView';
 import Today from '../Common/Today';
 import { useRecoilValue } from 'recoil';
-import { position } from '../../store/atom';
+import { position, pinList } from '../../store/atom';
+import PinList from '../PinDiary/PinList';
 
 const MainView = () => {
   const Position = useRecoilValue(position);
+  const oneDayPinList = useRecoilValue(pinList);
   const { currentLatitude, currentLongitude } = Position;
   const [modalShow, setModalShow] = useState<Boolean>(false);
-
-  // const handlePinButton = (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   setModalShow(true);
-  // };
-
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
   const navigate = useNavigate();
@@ -64,24 +59,30 @@ const MainView = () => {
                     일기
                   </RecordTitle>
                 </RecordTitleArea>
-                <EmptyView>
-                  {isPin ? (
-                    <>
-                      <Pin style={{ opacity: '0.2' }} />
-                      지도에 있는 버튼을 눌러
-                      <br />
-                      핀을 생성해보세요!
-                    </>
-                  ) : (
-                    <>
-                      아직 오늘의 일기가 없네요!
-                      <br />
-                      <DiaryBtn onClick={() => navigate('/diary')}>
-                        일기쓰기
-                      </DiaryBtn>
-                    </>
-                  )}
-                </EmptyView>
+                {oneDayPinList.length > 0 ? (
+                  <>
+                    <PinList />
+                  </>
+                ) : (
+                  <EmptyView>
+                    {isPin ? (
+                      <>
+                        <Pin style={{ opacity: '0.2' }} />
+                        지도에 있는 버튼을 눌러
+                        <br />
+                        핀을 생성해보세요!
+                      </>
+                    ) : (
+                      <>
+                        아직 오늘의 일기가 없네요!
+                        <br />
+                        <DiaryBtn onClick={() => navigate('/diary')}>
+                          일기쓰기
+                        </DiaryBtn>
+                      </>
+                    )}
+                  </EmptyView>
+                )}
               </section>
             </div>
           </MainArea>

@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { ReactComponent as Closebutton } from '../../assests/closebutton.svg';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { pinList, pinResponseType } from '../../store/atom';
+import { useSetRecoilState } from 'recoil';
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<Boolean>>;
@@ -31,7 +34,8 @@ const CreatePinModal = (props: modalProps) => {
       }
     }
   };
-
+  const setPinList = useSetRecoilState(pinList);
+  const navigate = useNavigate();
   const geocoder = new window.kakao.maps.services.Geocoder();
 
   useEffect(() => {
@@ -98,11 +102,21 @@ const CreatePinModal = (props: modalProps) => {
           }
         )
         .then(res => {
-          console.log(res);
+          const config = {
+            headers: { Authorization: token },
+            params: { sortBy: 'LATEST' },
+          };
+          axios
+            .get<pinResponseType>(
+              'https://api.walkary.fun/apis/main/maps-pin',
+              config
+            )
+            .then(res => {
+              setPinList(res.data.pins);
+              setModalShow(false);
+            });
         })
-        .catch(res => {
-          console.log(res);
-        });
+        .catch(res => {});
     }
   };
 
