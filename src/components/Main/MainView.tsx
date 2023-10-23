@@ -27,6 +27,10 @@ const MainView = () => {
   //   setIsPin(false);
   // }
 
+  const handleChangePin = (v: boolean) => {
+    setIsPin(v);
+  };
+
   return (
     <>
       {modalShow ? (
@@ -74,7 +78,7 @@ const MainView = () => {
                     핀을 생성해보세요!
                   </EmptyView>
                 ) : (
-                  <MainViewDairy todayDiary={todayDiary} />
+                  <MainViewDairy handleChangePin={handleChangePin} />
                 )}
               </section>
             </div>

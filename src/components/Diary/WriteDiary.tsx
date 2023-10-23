@@ -6,13 +6,11 @@ import { useState, ChangeEvent, useRef } from "react";
 import Today from "../Common/Today";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-//import { realReq } from "../../api/axios";
 
 export default function WriteDiary() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  //const [validate, setValidate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -65,7 +63,7 @@ export default function WriteDiary() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary`,
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/diary`,
         postData,
         {
           headers: {
@@ -73,10 +71,6 @@ export default function WriteDiary() {
           },
         }
       );
-      // const response = await realReq.POST(
-      //   "http://apis/diary",
-      //   postData
-      // );
       console.log(response);
       navigate("/main", { state: { todayDiary: true } });
     } catch (error) {

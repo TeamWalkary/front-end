@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import axios from "axios";
 
 interface MainViewDairyProps {
-  todayDiary: boolean;
+  handleChangePin: (v: boolean) => void;
 }
 
 export default function MainViewDairy(props: MainViewDairyProps) {
-  const { todayDiary } = props;
+  const { handleChangePin } = props;
   const navigate = useNavigate();
   const [diaryData, setDiaryData] = useState(null);
   const token = localStorage.getItem("token");
-  console.log(todayDiary);
+  //console.log(todayDiary);
 
   useEffect(() => {
     axios
@@ -27,40 +27,26 @@ export default function MainViewDairy(props: MainViewDairyProps) {
       .catch((error) => console.error(`Error: ${error}`));
   }, []);
 
-  const handleEdit = () => {
-    // axios
-    //   .put(
-    //     `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
-    //     {
-    //       headers: {
-    //         Authorization: token,
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => console.error(`Error: ${error}`));
+  const handleEdit = () => {};
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response);
+      console.log("삭제되었습니다!");
+      handleChangePin(true);
+      navigate("/main", { state: { todayDiary: true } });
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  // const handleDelete = () => {
-  //   //if (!diaryData || diaryData.id === null) return;
-
-  //   axios
-  //     .delete(
-  //       `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //       console.log("삭제되었습니다!");
-  //     })
-  //     .catch((error) => console.error(`Error: ${error}`));
-  // };
 
   if (!diaryData)
     return (
@@ -71,15 +57,44 @@ export default function MainViewDairy(props: MainViewDairyProps) {
     );
 
   return (
-    <Container>
-      {diaryData && JSON.stringify(diaryData)}
-      <EditButton onClick={handleEdit}>수정</EditButton>
-      <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
-    </Container>
+    <>
+      {diaryData && (
+        <Container>
+          <HeaderWrapper>
+            <Title>{diaryData.title}</Title>
+            <BtnWrapper>
+          <EditButton onClick={handleEdit}>수정</EditButton>
+              <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
+              </BtnWrapper>
+            </HeaderWrapper>
+          <image src=`${diaryData.image}` alt="이미지" />
+          <p>{diaryData.content}</p>
+        </Container>
+      )}
+    </>
   );
 }
 
 const Container = styled.section``;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+`;
+
+const Title = styled.strong`
+  color: #333;
+
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.4rem;
+  letter-spacing: -0.021rem;
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
+`;
 
 const EditButton = styled.button`
   background: #333;
