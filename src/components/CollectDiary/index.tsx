@@ -22,10 +22,6 @@ const CollectDiaryView = () => {
 
   const token = localStorage.getItem("token");
 
-  // useEffect(() => {
-  //   setAllDiaryData([1]);
-  // }, []);
-
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_APP_BASE_URL}/apis/collect/diary`, {
@@ -39,13 +35,11 @@ const CollectDiaryView = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-
-        // if (data.status === 200) {
-        //  setAllDiaryData(res.diary);
-        // } else if (data.status === 400) {
-        //  이걸 어떻게 처리하징...
-        // }
+        if (res.status === 200) {
+          setAllDiaryData(res.data);
+        } else if (res.status === 400) {
+          null;
+        }
       })
       .catch((res) => {
         console.log(res);
@@ -75,22 +69,6 @@ const CollectDiaryView = () => {
               </DiaryList>
             );
           })}
-
-          {/* <DiaryList>
-            <div>
-              <header>제목입니다</header>
-              <p>2023.10.20</p>
-            </div>
-            <img alt="일기 이미지" src="../../assests/예시이미지.jpg"></img>
-            <main>
-              오늘은 오랜만에 친구들이랑 논 날!! 어디 보자.. 올해 3월 이후로는
-              친구 만나는 게 처음이었넹 ㅎㅎ 오늘 피자도 먹고 만두도 먹고 치킨도
-              먹고 곱창이랑 순두부랑 또 뭐더라 또 쌀국수도 먹고 떡볶이에 튀김도
-              먹고.. 보자보자.. 아무튼 ㅎㅎ이것 저것 많이 먹었따! 부대찌개 못
-              먹은 게 좀 아쉽네 ㅠㅠ 내년에 친구들 만나면 또 이것저것 맛있는 거
-              먹어야징!!
-            </main>
-          </DiaryList> */}
         </>
       ) : (
         <Nothing />
