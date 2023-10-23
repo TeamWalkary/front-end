@@ -52,14 +52,20 @@ export default function WriteDiary() {
       return;
     }
 
+    if (text.length > 500) {
+      alert("일기의 내용이 500자를 초과했습니다.");
+      return;
+    }
+
     const postData = {
       title: title,
-      text: text,
-      imageUrl: imageUrl,
+      content: text,
+      image: imageUrl,
     };
+
     try {
       const response = await axios.post(
-        "http://15.165.134.29:8080/apis/diary",
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary`,
         postData,
         {
           headers: {
@@ -68,11 +74,11 @@ export default function WriteDiary() {
         }
       );
       // const response = await realReq.POST(
-      //   "http://15.165.134.29:8080/apis/diary",
+      //   "http://apis/diary",
       //   postData
       // );
       console.log(response);
-      navigate("/main", { state: { todaydairy: true } });
+      navigate("/main", { state: { todayDiary: true } });
     } catch (error) {
       console.error(error);
     }
