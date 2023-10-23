@@ -79,18 +79,18 @@ const MainView = () => {
                     <PinList />
                   </>
                 ) : (
-                  <EmptyView>
+                  <>
                     {isPin ? (
-                      <>
+                      <EmptyView>
                         <Pin style={{ opacity: "0.2" }} />
                         지도에 있는 버튼을 눌러
                         <br />
                         핀을 생성해보세요!
-                      </>
+                      </EmptyView>
                     ) : (
                       <MainViewDairy handleChangePin={handleChangePin} />
                     )}
-                  </EmptyView>
+                  </>
                 )}
               </SectionArea>
             </SectionWrapper>
