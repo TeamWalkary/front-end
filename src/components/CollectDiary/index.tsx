@@ -2,6 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Nothing from "./Nothing";
+import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
+import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
+import SideNav from "../Main/SideNav";
 
 type Diarys = {
   id: string;
@@ -14,8 +18,13 @@ type Diarys = {
 const CollectDiaryView = () => {
   const [allDiaryData, setAllDiaryData] = useState<Diarys[]>([]);
   const [limitNum, setLimitNum] = useState(0);
+  const [sideNavOpen, setSideNavOpen] = useState(false);
 
   const token = localStorage.getItem("token");
+
+  // useEffect(() => {
+  //   setAllDiaryData([1]);
+  // }, []);
 
   useEffect(() => {
     axios
@@ -45,6 +54,12 @@ const CollectDiaryView = () => {
 
   return (
     <Container>
+      {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
+      <MainHeader>
+        <MenuBtn onClick={() => setSideNavOpen(true)} />
+        <Logo width="61" height="16" />
+        <Calendar />
+      </MainHeader>
       {allDiaryData.length > 0 ? (
         <>
           <Title>일기 모아보기</Title>
@@ -90,7 +105,19 @@ const Container = styled.div`
   height: 90vh;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+`;
+
+const MainHeader = styled.header`
+  padding: 0.5rem 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  line-height: 2.4rem;
+  font-size: 1.4rem;
+  letter-spacing: -0.021rem;
+  height: 4rem;
+  box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.08);
 `;
 
 const Title = styled.h1`
@@ -101,6 +128,7 @@ const Title = styled.h1`
   font-style: normal;
   font-weight: 700;
   line-height: 30px;
+  padding: 2rem 2rem 0 2rem;
 `;
 
 const DiaryList = styled.div`
@@ -112,7 +140,7 @@ const DiaryList = styled.div`
   border: 0.5px solid #dcdcdc;
   background: #fffefc;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04);
-  margin-bottom: 2rem;
+  margin: 0 2rem 2rem 2rem;
 
   div {
     display: flex;

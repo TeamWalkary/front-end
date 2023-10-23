@@ -35,6 +35,7 @@ const Title = styled.h1`
   font-style: normal;
   font-weight: 700;
   line-height: 30px;
+  padding: 2rem 2rem 0 2rem;
 `;
 
 const Container = styled.div`
