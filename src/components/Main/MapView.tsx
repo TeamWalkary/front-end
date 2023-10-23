@@ -4,7 +4,7 @@ import { ReactComponent as PinBtn } from "../../assests/pinBtn.svg";
 import { ReactComponent as GpsBtn } from "../../assests/gpsBtn.svg";
 import CurrentLoc from "../../assests/currentLocation.svg";
 import pinDraw from "../../assests/pinDraw.svg";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { pinList, position, pinResponseType } from "../../store/atom";
 import axios from "axios";
 
