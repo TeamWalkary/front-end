@@ -1,7 +1,7 @@
-import React from "react";
+import CollectDiaryView from "../components/CollectDiary";
 
 const CollectDiary = () => {
-  return <div>CollectDiary</div>;
+  return <CollectDiaryView />;
 };
 
 export default CollectDiary;
