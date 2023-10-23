@@ -20,15 +20,11 @@ const SubmitForms = () => {
   const navigate = useNavigate();
 
   const postUserData = () => {
-    // `${import.meta.env.REACT_APP_IP}/apis/login`
     axios
-      .post(
-        "https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/login",
-        {
-          userId: inputValue.id,
-          password: inputValue.pw,
-        }
-      )
+      .post(`${import.meta.env.VITE_APP_BASE_URL}/apis/login`, {
+        userId: inputValue.id,
+        password: inputValue.pw,
+      })
       .then((res) => {
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);

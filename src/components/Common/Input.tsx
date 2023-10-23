@@ -34,6 +34,7 @@ const Input = (props: inputDataProps) => {
         placeholder={placeholder}
         required={required}
         onChange={(e) => handleInput(e)}
+        autoComplete="off"
       />
       <IdInputValid $isValid={isValid}>
         {/* {checkPw
@@ -60,7 +61,7 @@ const IdInputValid = styled.p<{ $isValid: boolean }>`
   visibility: ${(props) => (props.$isValid ? "hidden" : "visible")};
 `;
 
-const LoginLabel = styled.form`
+const LoginLabel = styled.p`
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 700;
