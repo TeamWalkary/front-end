@@ -23,15 +23,11 @@ const SubmitForms = () => {
   const navigate = useNavigate();
 
   const postUserData = () => {
-    // `${import.meta.env.REACT_APP_IP}/apis/signUp`
     axios
-      .post(
-        "https://d11ad427-0f9f-4d54-95a0-e88aeaa2b860.mock.pstmn.io/apis/signUp",
-        {
-          userId: inputValue.id,
-          password: inputValue.pw,
-        }
-      )
+      .post(`${import.meta.env.VITE_APP_BASE_URL}/apis/signup`, {
+        userId: inputValue.id,
+        password: inputValue.pw,
+      })
       .then((data) => {
         if (data.status === 200) {
           navigate("/login");
