@@ -7,10 +7,17 @@ interface MainViewDairyProps {
   handleChangePin: (v: boolean) => void;
 }
 
+interface DiaryData {
+  id: number;
+  title: string;
+  content: string;
+  image: string;
+}
+
 export default function MainViewDairy(props: MainViewDairyProps) {
   const { handleChangePin } = props;
   const navigate = useNavigate();
-  const [diaryData, setDiaryData] = useState(null);
+  const [diaryData, setDiaryData] = useState<DiaryData | null>();
   const token = localStorage.getItem("token");
   //console.log(todayDiary);
 
@@ -27,7 +34,9 @@ export default function MainViewDairy(props: MainViewDairyProps) {
       .catch((error) => console.error(`Error: ${error}`));
   }, []);
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    alert("서비스 준비 중입니다.");
+  };
 
   const handleDelete = async () => {
     try {
@@ -63,22 +72,29 @@ export default function MainViewDairy(props: MainViewDairyProps) {
           <HeaderWrapper>
             <Title>{diaryData.title}</Title>
             <BtnWrapper>
-          <EditButton onClick={handleEdit}>수정</EditButton>
+              <EditButton onClick={handleEdit}>수정</EditButton>
               <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
-              </BtnWrapper>
-            </HeaderWrapper>
-          <image src=`${diaryData.image}` alt="이미지" />
-          <p>{diaryData.content}</p>
+            </BtnWrapper>
+          </HeaderWrapper>
+          {diaryData?.image && (
+            <ImageWrapper>
+              <Image src={diaryData.image} alt="이미지" />
+            </ImageWrapper>
+          )}
+          <ContentWrapper>{diaryData.content}</ContentWrapper>
         </Container>
       )}
     </>
   );
 }
 
-const Container = styled.section``;
+const Container = styled.section`
+  margin: 2rem;
+`;
 
 const HeaderWrapper = styled.div`
   display: flex;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.strong`
@@ -93,19 +109,59 @@ const Title = styled.strong`
 `;
 
 const BtnWrapper = styled.div`
-  display: flex;
+  position: absolute;
+  right: 2rem;
 `;
 
 const EditButton = styled.button`
-  background: #333;
-  color: white;
-  padding: 0.5rem;
+  margin-right: 2rem;
+  background: none;
+  border: none;
+  padding: 0;
+
+  color: #a1a1a1;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
 `;
 
 const DeleteButton = styled.button`
-  background: red;
-  color: white;
-  padding: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  color: #a1a1a1;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
+`;
+
+const ImageWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const Image = styled.img`
+  width: 33.5rem;
+  height: 18.8rem;
+`;
+
+const ContentWrapper = styled.p`
+  align-self: stretch;
+
+  color: #333;
+
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
 `;
 
 const EmptyWrapper = styled.section`

@@ -95,7 +95,11 @@ export default function WriteDiary() {
           value={title}
           onChange={handleChangeTitle}
         />
-        {imageUrl && <PreviewImage src={imageUrl} alt="preview" />}
+        {imageUrl && (
+          <ImageWrapper>
+            <PreviewImage src={imageUrl} alt="preview" />
+          </ImageWrapper>
+        )}
         <ContentInput
           value={text}
           onChange={handleChangeContent}
@@ -110,7 +114,7 @@ export default function WriteDiary() {
               ref={fileInputRef}
             />
           </div>
-          <div>{text.length} / 500</div>
+          <ContentLength>{text.length} / 500</ContentLength>
         </DiaryFooter>
       </InputArea>
     </Container>
@@ -118,13 +122,17 @@ export default function WriteDiary() {
 }
 
 const Container = styled.section`
-  height: 90vh;
+  height: auto;
 `;
 
+const ImageWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  margin: 2rem 0;
+`;
 const PreviewImage = styled.img`
-  margin: 2rem;
-  height: auto;
-  aspect-ratio: 16 / 9;
+  width: 33.5rem;
+  height: 18.8rem;
 `;
 
 const DiaryHeader = styled.header`
@@ -159,9 +167,8 @@ const TitleInput = styled.input`
 
 const ContentInput = styled.textarea`
   width: 100%;
-  height: 100%;
   background-color: inherit;
-  height: 60rem;
+  height: 50rem;
   border: none;
   outline: none;
   font-size: 1.4rem;
@@ -170,8 +177,22 @@ const ContentInput = styled.textarea`
 `;
 
 const DiaryFooter = styled.div`
-  width: 100%;
+  position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
+
+  width: 100%
+  height: 2.5rem
+
   color: #a1a1a1;
+  background-color: white;
+`;
+
+const ContentLength = styled.div`
+  position: fixed;
+  right: 2rem;
+  bottom: 0.2rem;
+
+  background-color: white;
 `;
