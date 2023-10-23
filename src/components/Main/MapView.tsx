@@ -4,8 +4,14 @@ import { ReactComponent as PinBtn } from '../../assests/pinBtn.svg';
 import { ReactComponent as GpsBtn } from '../../assests/gpsBtn.svg';
 import CurrentLoc from '../../assests/currentLocation.svg';
 import pinDraw from '../../assests/pinDraw.svg';
-import { useSetRecoilState } from 'recoil';
-import { position } from '../../store/atom';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import {
+  pinList,
+  position,
+  pinListType,
+  pinResponseType,
+} from '../../store/atom';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -37,6 +43,24 @@ const MapView = (props: modalProps) => {
   const { setModalShow } = props;
   const mapRef = useRef<any>(null);
   const setPosition = useSetRecoilState(position);
+
+  const setPinList = useSetRecoilState(pinList);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: { Authorization: token },
+      params: { sortBy: 'LATEST' },
+    };
+    axios
+      .get<pinResponseType>(
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/maps-pin`,
+        config
+      )
+      .then(res => {
+        setPinList(res.data.pins);
+      });
+  }, []);
+
   useEffect(() => {
     const container = document.getElementById('map');
     const options = {
