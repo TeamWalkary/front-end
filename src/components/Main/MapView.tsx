@@ -1,17 +1,12 @@
-import styled from 'styled-components';
-import React, { useEffect, useRef } from 'react';
-import { ReactComponent as PinBtn } from '../../assests/pinBtn.svg';
-import { ReactComponent as GpsBtn } from '../../assests/gpsBtn.svg';
-import CurrentLoc from '../../assests/currentLocation.svg';
-import pinDraw from '../../assests/pinDraw.svg';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import {
-  pinList,
-  position,
-  pinListType,
-  pinResponseType,
-} from '../../store/atom';
-import axios from 'axios';
+import styled from "styled-components";
+import React, { useEffect, useRef } from "react";
+import { ReactComponent as PinBtn } from "../../assests/pinBtn.svg";
+import { ReactComponent as GpsBtn } from "../../assests/gpsBtn.svg";
+import CurrentLoc from "../../assests/currentLocation.svg";
+import pinDraw from "../../assests/pinDraw.svg";
+import { useSetRecoilState } from "recoil";
+import { pinList, position, pinResponseType } from "../../store/atom";
+import axios from "axios";
 
 declare global {
   interface Window {
@@ -21,15 +16,15 @@ declare global {
 
 const positions = [
   {
-    title: '진저베어',
+    title: "진저베어",
     latlng: new window.kakao.maps.LatLng(37.509138, 127.105394),
   },
   {
-    title: '석촌호수',
+    title: "석촌호수",
     latlng: new window.kakao.maps.LatLng(37.511667, 127.105191),
   },
   {
-    title: '롯데백화점',
+    title: "롯데백화점",
     latlng: new window.kakao.maps.LatLng(37.5125295, 127.102305),
   },
 ];
@@ -46,23 +41,23 @@ const MapView = (props: modalProps) => {
 
   const setPinList = useSetRecoilState(pinList);
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const config = {
       headers: { Authorization: token },
-      params: { sortBy: 'LATEST' },
+      params: { sortBy: "LATEST" },
     };
     axios
       .get<pinResponseType>(
         `${import.meta.env.VITE_APP_BASE_URL}/apis/main/maps-pin`,
         config
       )
-      .then(res => {
+      .then((res) => {
         setPinList(res.data.pins);
       });
   }, []);
 
   useEffect(() => {
-    const container = document.getElementById('map');
+    const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.5132612, 127.1001336), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
@@ -104,9 +99,9 @@ const MapView = (props: modalProps) => {
           map: mapRef.current,
           path: linePath, // 선을 구성하는 좌표배열
           strokeWeight: 2, // 선의 두께
-          strokeColor: '#7bed9f', // 선의 색깔
+          strokeColor: "#7bed9f", // 선의 색깔
           strokeOpacity: 1, // 선의 불투명도
-          strokeStyle: 'solid', // 선의 스타일
+          strokeStyle: "solid", // 선의 스타일
         });
       }
       setBounds();
@@ -173,7 +168,7 @@ const MapView = (props: modalProps) => {
         displayMarker(mapRef.current, latlng);
       });
     } else {
-      alert('Geolocation is not supported by this browser.');
+      alert("Geolocation is not supported by this browser.");
     }
   }
 
@@ -184,7 +179,7 @@ const MapView = (props: modalProps) => {
   return (
     <Map>
       {/* 지도를 표시할 div 입니다 */}
-      <div id='map' style={{ width: '100%', height: '232px' }}></div>
+      <div id="map" style={{ width: "100%", height: "232px" }}></div>
       <MapBtns>
         <Gps onClick={handleGpsClick} />
         <Pin onClick={handlePinClick} />

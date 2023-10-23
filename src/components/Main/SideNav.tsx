@@ -24,7 +24,9 @@ const SideNav = ({ setSideNavOpen }: sideNavPropsType) => {
         </NavBarHeader>
         <NavMenu>
           <Navitem onClick={() => navigate("/main")}>홈</Navitem>
-          <Navitem onClick={() => navigate("/collectPin")}>핀 모아보기</Navitem>
+          <Navitem onClick={() => window.alert("해당 기능은 준비중입니다.")}>
+            핀 모아보기
+          </Navitem>
           <Navitem onClick={() => navigate("/collectDiary")}>
             일기 모아보기
           </Navitem>
@@ -73,6 +75,7 @@ const Navitem = styled.li`
   padding: 1.2rem 2rem;
   font-size: 1.4rem;
   line-height: 2rem;
+  cursor: pointer;
   &:active {
     font-weight: 800;
   }

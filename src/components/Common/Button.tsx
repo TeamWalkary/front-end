@@ -29,6 +29,7 @@ const LoginBtn = styled.button<{
   $isValid: boolean;
   $width?: number;
 }>`
+  cursor: pointer;
   margin-top: 3.2rem;
   border-radius: 99px;
   background-color: ${(props) => (props.$isValid ? "#333333" : "#DCDCDC")};
