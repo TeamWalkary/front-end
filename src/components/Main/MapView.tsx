@@ -37,8 +37,8 @@ interface modalProps {
 const MapView = (props: modalProps) => {
   const { setModalShow } = props;
   const mapRef = useRef<any>(null);
+  const pins = useRecoilValue(pinList);
   const setPosition = useSetRecoilState(position);
-
   const setPinList = useSetRecoilState(pinList);
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -66,32 +66,42 @@ const MapView = (props: modalProps) => {
     // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
     mapRef.current = new window.kakao.maps.Map(container!, options);
 
-    if (positions.length > 0) {
+    if (pins.length > 0) {
       let linePath;
       const lineLine = new window.kakao.maps.Polyline();
       let polyline;
 
       // 저장된핀마커표시
-      for (let i = 0; i < positions.length; i++) {
+      for (let i = 0; i < pins.length; i++) {
         const imageSize = new window.kakao.maps.Size(24, 24);
         const markerImage = new window.kakao.maps.MarkerImage(
           pinDraw,
           imageSize
         );
 
+        const latlng = new window.kakao.maps.LatLng(
+          pins[i].longitude,
+          pins[i].latitude
+        );
+
         // 마커 생성
         const marker = new window.kakao.maps.Marker({
           map: mapRef.current,
-          position: positions[i].latlng,
-          title: positions[i].title,
+          position: latlng,
+          title: pins[i].contents,
           image: markerImage,
         });
+
         marker.setMap(mapRef.current);
 
         // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(positions[i].latlng);
+        bounds.extend(latlng);
         if (i != 0) {
-          linePath = [positions[i - 1].latlng, positions[i].latlng];
+          const prevlatlng = new window.kakao.maps.LatLng(
+            pins[i - 1].longitude,
+            pins[i - 1].latitude
+          );
+          linePath = [prevlatlng, latlng];
         }
         lineLine.setPath(linePath);
 
