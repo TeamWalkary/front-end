@@ -10,7 +10,12 @@ const Button = (props: inputDataProps) => {
   const { placeholder, isValid, postUserData } = props;
 
   return (
-    <LoginBtn type="submit" onClick={postUserData} $isValid={isValid}>
+    <LoginBtn
+      type="submit"
+      onClick={postUserData}
+      $isValid={isValid}
+      disabled={!isValid}
+    >
       {placeholder}
     </LoginBtn>
   );
@@ -30,8 +35,4 @@ const LoginBtn = styled.button<{ $isValid: boolean }>`
   border: none;
   color: white;
   font-size: 1.6rem;
-
-  &:active {
-    background-color: #333;
-  }
 `;
