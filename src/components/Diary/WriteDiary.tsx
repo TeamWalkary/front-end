@@ -5,14 +5,14 @@ import { ReactComponent as Picture } from "../../assests/picture.svg";
 import { useState, ChangeEvent, useRef } from "react";
 import Today from "../Common/Today";
 import { useNavigate } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 //import { realReq } from "../../api/axios";
 
 export default function WriteDiary() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [validate, setValidate] = useState(false);
+  //const [validate, setValidate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -45,22 +45,34 @@ export default function WriteDiary() {
     fileInputRef.current?.click();
   };
 
+  const token = localStorage.getItem("token");
   const handleSubmit = async () => {
-    // const postData = {
-    //   title: title,
-    //   text: text,
-    //   imageUrl: imageUrl,
-    // };
+    if (!text || !title) {
+      alert("일기의 제목과 내용을 작성해주세요!");
+      return;
+    }
+
+    const postData = {
+      title: title,
+      text: text,
+      imageUrl: imageUrl,
+    };
     try {
-      // const response = await axios.post(
-      //   "http://15.165.134.29:8080/apis/diary",
-      //   postData
-      // );
+      const response = await axios.post(
+        "http://15.165.134.29:8080/apis/diary",
+        postData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       // const response = await realReq.POST(
       //   "http://15.165.134.29:8080/apis/diary",
       //   postData
       // );
-      // console.log(response);
+      console.log(response);
+      navigate("/main", { state: { todaydairy: true } });
     } catch (error) {
       console.error(error);
     }
@@ -72,8 +84,9 @@ export default function WriteDiary() {
         <BackArrow onClick={() => navigate("/main")} />
         <Today />
         <Check
-          style={{ opacity: `${validate ? "1" : "0.4"}` }}
-          onClick={validate ? handleSubmit : () => {}}
+          //style={{ opacity: `${validate ? "1" : "0.4"}` }}
+          //onClick={validate ? handleSubmit : () => {}}
+          onClick={handleSubmit}
         />
       </DiaryHeader>
       <InputArea>
