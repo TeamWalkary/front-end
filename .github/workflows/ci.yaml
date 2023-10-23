@@ -21,6 +21,7 @@ jobs:
           yarn install
       - name: Yarn Build
         run: |
+          ls -al src/
           export VITE_APP_KAKAO_KEY=${{ secrets.VITE_APP_KAKAO_KEY }}
           yarn build
       - name: Deploy to S3
