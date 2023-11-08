@@ -1,20 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
 import GlobalStyle from './GlobalStyle';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import Main from './pages/Main';
-import Diary from './pages/Diary';
-import CollectDiary from './pages/CollectDiary';
-import CollectPin from './pages/CollectPin';
-import NotFoundPage from './pages/NotFoundPage';
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
+import LandingPage from './components/LandingPage';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import MainPage from './components/MainPage';
+import DiaryPage from './components/DiaryPage';
+import CollectDiaryPage from './components/CollectDiaryPage';
+import CollectPinPage from './components/CollectPinPage';
+import NotFoundPage from './components/Common/NotFoundPage';
+import { RecoilRoot } from 'recoil';
 
 export default function App() {
   return (
@@ -22,13 +16,13 @@ export default function App() {
       <RecoilRoot>
         <GlobalStyle />
         <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signUp' element={<SignUp />} />
-          <Route path='/main' element={<Main />} />
-          <Route path='/diary' element={<Diary />} />
-          <Route path='/collectDiary' element={<CollectDiary />} />
-          <Route path='/collectPin' element={<CollectPin />} />
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/signUp' element={<SignUpPage />} />
+          <Route path='/main' element={<MainPage />} />
+          <Route path='/diary' element={<DiaryPage />} />
+          <Route path='/collectDiary' element={<CollectDiaryPage />} />
+          <Route path='/collectPin' element={<CollectPinPage />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </RecoilRoot>
