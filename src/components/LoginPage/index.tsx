@@ -1,53 +1,29 @@
-import { styled } from 'styled-components';
-import { ReactComponent as Logo } from '../../assests/newLogo.svg';
-import { ReactComponent as CloseBtn } from '../../assests/CloseBtn.svg';
-import { useNavigate } from 'react-router-dom';
-import SubmitForms from './SubmitForms';
+import { S } from "./style";
+//
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
+import { ReactComponent as CloseBtn } from "../../assests/CloseBtn.svg";
+import { useNavigate } from "react-router-dom";
+import SubmitForms from "./SubmitForms";
 
-const LoginPage = () => {
+export default function LoginPage() {
   const navigate = useNavigate();
 
   const signUpHandler = () => {
-    navigate('/signUp');
+    navigate("/signUp");
   };
 
   const closeHandler = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
-    <LoginArea>
-      <Logo width='183' height='48' style={{ marginBottom: '10rem' }} />
+    <S.LoginArea>
+      <Logo width="183" height="48" style={{ marginBottom: "10rem" }} />
       <SubmitForms />
-      <SignUpBtn onClick={signUpHandler}>회원가입</SignUpBtn>
-      <CloseBtnArea onClick={closeHandler}>
+      <S.SignUpBtn onClick={signUpHandler}>회원가입</S.SignUpBtn>
+      <S.CloseBtnArea onClick={closeHandler}>
         <CloseBtn />
-      </CloseBtnArea>
-    </LoginArea>
+      </S.CloseBtnArea>
+    </S.LoginArea>
   );
-};
-
-export default LoginPage;
-
-const LoginArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  flex-direction: column;
-  position: relative;
-`;
-
-const SignUpBtn = styled.div`
-  margin-top: 2rem;
-  text-align: center;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.368px;
-`;
-
-const CloseBtnArea = styled.div`
-  position: absolute;
-  top: 1.6rem;
-  right: 1.6rem;
-`;
+}
