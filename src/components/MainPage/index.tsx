@@ -1,17 +1,13 @@
-import { styled } from 'styled-components';
-import { ReactComponent as MenuBtn } from '../../assests/menuBtn.svg';
-import { ReactComponent as Calendar } from '../../assests/Calendar.svg';
-import { ReactComponent as Pin } from '../../assests/pin.svg';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import SideNav from './SideNav';
-import { useState } from 'react';
-import CreatePinModal from './CreatePinModal';
-import MapView from './MapView';
-import Today from '../Common/Today';
-import { useRecoilValue } from 'recoil';
-import { position, pinList } from '../../core/atom';
-import PinDiaryView from './PinDiaryView';
-import MainViewDairy from './MainViewDairy';
+import { styled } from "styled-components";
+import { ReactComponent as Pin } from "../../assests/pin.svg";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import CreatePinModal from "./CreatePinModal";
+import MapView from "./MapView";
+import { useRecoilValue } from "recoil";
+import { position, pinList } from "../../core/atom";
+import PinDiaryView from "./PinDiaryView";
+import MainViewDairy from "./MainViewDairy";
 
 const MainPage = () => {
   const Position = useRecoilValue(position);
@@ -22,7 +18,6 @@ const MainPage = () => {
   const location = useLocation();
   const todayDiary = location.state?.todayDiary;
 
-  const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isPin, setIsPin] = useState(true);
 
   // if (todayDiary) {
@@ -46,15 +41,6 @@ const MainPage = () => {
       ) : (
         <>
           <MainArea>
-            {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
-            <MainHeader>
-              <MenuBtn
-                onClick={() => setSideNavOpen(true)}
-                style={{ cursor: 'pointer' }}
-              />
-              <Today />
-              <Calendar />
-            </MainHeader>
             <SectionWrapper>
               <SectionArea>
                 <MapArea>
@@ -62,13 +48,13 @@ const MainPage = () => {
                 </MapArea>
                 <RecordTitleArea>
                   <RecordTitle
-                    className={isPin ? 'active' : ''}
+                    className={isPin ? "active" : ""}
                     onClick={() => setIsPin(true)}
                   >
                     핀 기록
                   </RecordTitle>
                   <RecordTitle
-                    className={isPin ? '' : 'active'}
+                    className={isPin ? "" : "active"}
                     onClick={() => setIsPin(false)}
                   >
                     일기
@@ -82,7 +68,7 @@ const MainPage = () => {
                   <>
                     {isPin ? (
                       <EmptyView>
-                        <Pin style={{ opacity: '0.2' }} />
+                        <Pin style={{ opacity: "0.2" }} />
                         지도에 있는 버튼을 눌러
                         <br />
                         핀을 생성해보세요!

@@ -3,10 +3,6 @@ import { S } from "./style";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import NothingPage from "./NothingPage";
-import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
-import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
-import { ReactComponent as Logo } from "../../assests/newLogo.svg";
-import SideNav from "../MainPage/SideNav";
 
 type Diarys = {
   id: string;
@@ -19,7 +15,6 @@ type Diarys = {
 export default function CollectDiaryPage() {
   const [allDiaryData, setAllDiaryData] = useState<Diarys[]>([]);
   // const [limitNum, setLimitNum] = useState(0);
-  const [sideNavOpen, setSideNavOpen] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -49,12 +44,6 @@ export default function CollectDiaryPage() {
 
   return (
     <S.Container>
-      {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
-      <S.MainHeader>
-        <MenuBtn onClick={() => setSideNavOpen(true)} />
-        <Logo width="61" height="16" />
-        <Calendar />
-      </S.MainHeader>
       {allDiaryData.length > 0 ? (
         <>
           <S.Title>일기 모아보기</S.Title>
