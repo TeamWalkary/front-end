@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import NothingPage from './NothingPage';
-import { ReactComponent as MenuBtn } from '../../assests/menuBtn.svg';
-import { ReactComponent as Calendar } from '../../assests/Calendar.svg';
-import { ReactComponent as Logo } from '../../assests/newLogo.svg';
-import SideNav from '../MainPage/SideNav';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import NothingPage from "./NothingPage";
+import { ReactComponent as MenuBtn } from "../../assests/menuBtn.svg";
+import { ReactComponent as Calendar } from "../../assests/Calendar.svg";
+import { ReactComponent as Logo } from "../../assests/newLogo.svg";
+import SideNav from "../Common/Nav/SideNav";
 
 type Diarys = {
   id: string;
@@ -20,7 +20,7 @@ const CollectDiaryPage = () => {
   const [limitNum, setLimitNum] = useState(0);
   const [sideNavOpen, setSideNavOpen] = useState(false);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     axios
@@ -31,17 +31,17 @@ const CollectDiaryPage = () => {
         params: {
           limit: 5,
           offset: 0,
-          sortBy: 'LATEST',
+          sortBy: "LATEST",
         },
       })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           setAllDiaryData(res.data);
         } else if (res.status === 400) {
           null;
         }
       })
-      .catch(res => {
+      .catch((res) => {
         console.log(res);
       });
   }, []);
@@ -51,20 +51,20 @@ const CollectDiaryPage = () => {
       {sideNavOpen && <SideNav setSideNavOpen={setSideNavOpen} />}
       <MainHeader>
         <MenuBtn onClick={() => setSideNavOpen(true)} />
-        <Logo width='61' height='16' />
+        <Logo width="61" height="16" />
         <Calendar />
       </MainHeader>
       {allDiaryData.length > 0 ? (
         <>
           <Title>일기 모아보기</Title>
-          {allDiaryData?.map(diary => {
+          {allDiaryData?.map((diary) => {
             return (
               <DiaryList key={diary.id}>
                 <div>
                   <header>{diary.title}</header>
                   <p>{diary.date}</p>
                 </div>
-                <img alt='일기 이미지' src={diary.iamge}></img>
+                <img alt="일기 이미지" src={diary.iamge}></img>
                 <main>{diary.content}</main>
               </DiaryList>
             );
