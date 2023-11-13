@@ -11,7 +11,7 @@ export default function Button(props: inputDataProps) {
   const { placeholder, isValid, onclick, width } = props;
 
   return (
-    <S.LoginBtn
+    <S.Btn
       type="submit"
       onClick={onclick}
       $isValid={isValid}
@@ -19,6 +19,6 @@ export default function Button(props: inputDataProps) {
       $width={width}
     >
       {placeholder}
-    </S.LoginBtn>
+    </S.Btn>
   );
 }

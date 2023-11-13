@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const S = {
-  LoginBtn: styled.button<{
+  Btn: styled.button<{
     $isValid: boolean;
     $width?: number;
   }>`
@@ -11,7 +11,7 @@ export const S = {
     background-color: ${(props) => (props.$isValid ? "#333333" : "#DCDCDC")};
     display: flex;
     width: ${(props) => (props.$width ? "16rem" : "29.6rem")};
-    padding: 0.8rem 5.2rem;
+    padding: 1.2rem 5.2rem;
     justify-content: center;
     align-items: center;
     border: none;
