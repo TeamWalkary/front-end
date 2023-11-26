@@ -1,12 +1,13 @@
-import styled from 'styled-components';
+
+import { S } from './style';
 import React, { useEffect, useRef } from 'react';
-import { ReactComponent as PinBtn } from '../../../assests/pinBtn.svg';
-import { ReactComponent as GpsBtn } from '../../../assests/gpsBtn.svg';
 import CurrentLoc from '../../../assests/currentLocation.svg';
 import pinDraw from '../../../assests/pinDraw.svg';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { pinList, position, pinResponseType } from '../../../core/atom';
+import { pinList, position } from '../../../core/atom';
+import {pinResponseType} from '../../../types/pin';
 import axios from 'axios';
+
 
 declare global {
   interface Window {
@@ -32,7 +33,7 @@ const positions = [
 const bounds = new window.kakao.maps.LatLngBounds();
 
 interface modalProps {
-  setModalShow: React.Dispatch<React.SetStateAction<Boolean>>;
+  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const MapView = (props: modalProps) => {
   const { setModalShow } = props;
@@ -187,37 +188,14 @@ const MapView = (props: modalProps) => {
   }
 
   return (
-    <Map>
-      {/* 지도를 표시할 div 입니다 */}
-      <div id='map' style={{ width: '100%', height: '232px' }}></div>
-      <MapBtns>
-        <Gps onClick={handleGpsClick} />
-        <Pin onClick={handlePinClick} />
-      </MapBtns>
-    </Map>
+    <S.Map>
+      <S.MapViewArea/>
+      <S.MapBtns>
+        <S.Gps onClick={handleGpsClick} />
+        <S.Pin onClick={handlePinClick} />
+      </S.MapBtns>
+    </S.Map>
   );
 };
 
 export default MapView;
-
-const Map = styled.main`
-  position: relative;
-`;
-
-const MapBtns = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  z-index: 1;
-`;
-
-const Gps = styled(GpsBtn)`
-  cursor: pointer;
-`;
-const Pin = styled(PinBtn)`
-  cursor: pointer;
-  color: white;
-  z-index: 990;
-`;
