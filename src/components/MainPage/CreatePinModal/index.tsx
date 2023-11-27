@@ -1,10 +1,11 @@
 import { S } from './style';
-import { ReactComponent as Closebutton } from '../../../assests/closebutton.svg';
-import { ReactComponent as Clearbutton } from '../../../assests/clearBtn.svg';
+import PinModalCloseButton from '../../../assests/PinModalCloseButton';
+import PinModalAddressNameClearButton from '../../../assests/PinModalAddressNameClearButton';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { pinList } from '../../../core/atom';
 import { useSetRecoilState } from 'recoil';
+import { pinResponseType } from '../../../types/pin';
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -132,7 +133,7 @@ export default function CreatePinModal(props: modalProps) {
             <S.FirstTextContainer>
               <S.FirstText>핀 추가하기</S.FirstText>
               <S.CloseButtonContainer onClick={handleClosebutton}>
-                <Closebutton width='24' height='24'></Closebutton>
+                <PinModalCloseButton />
               </S.CloseButtonContainer>
             </S.FirstTextContainer>
             <S.SecondText>이 장소에 대해 알려주세요. (20자 이내)</S.SecondText>
@@ -148,7 +149,7 @@ export default function CreatePinModal(props: modalProps) {
                 }
               />
               <S.CloseButtonContainer onClick={handleClearbutton}>
-                <Clearbutton width='13.5' height='13.5'></Clearbutton>
+                <PinModalAddressNameClearButton />
               </S.CloseButtonContainer>
             </S.InputWrapper>
           </S.SecondSection>
