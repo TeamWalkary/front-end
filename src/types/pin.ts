@@ -5,7 +5,8 @@ export interface pinResponseType {
 export interface pinListType {
   id: number;
   contents: string;
-  latitude: number;
   longitude: number;
+  latitude: number;
   stampTime: string;
 }
+

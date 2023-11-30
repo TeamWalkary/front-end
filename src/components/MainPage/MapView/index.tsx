@@ -109,7 +109,7 @@ const MapView = (props: modalProps) => {
         polyline = new window.kakao.maps.Polyline({
           map: mapRef.current,
           path: linePath, // 선을 구성하는 좌표배열
-          strokeWeight: 2, // 선의 두께
+          strokeWeight: 4, // 선의 두께
           strokeColor: '#7bed9f', // 선의 색깔
           strokeOpacity: 1, // 선의 불투명도
           strokeStyle: 'solid', // 선의 스타일
@@ -189,7 +189,8 @@ const MapView = (props: modalProps) => {
 
   return (
     <S.Map>
-      <S.MapViewArea/>
+      <S.MapViewArea id="map">
+      </S.MapViewArea>
       <S.MapBtns>
         <S.Gps onClick={handleGpsClick} />
         <S.Pin onClick={handlePinClick} />
