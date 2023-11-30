@@ -3,6 +3,7 @@ import { S } from './style';
 import React, { useEffect, useRef } from 'react';
 import CurrentLoc from '../../../assests/currentLocation.svg';
 import pinDraw from '../../../assests/pinDraw.svg';
+import pinClick from '../../../assests/pinClick.svg';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { pinList, position } from '../../../core/atom';
 import {pinResponseType} from '../../../types/pin';
@@ -41,6 +42,17 @@ const MapView = (props: modalProps) => {
   const pins = useRecoilValue(pinList);
   const setPosition = useSetRecoilState(position);
   const setPinList = useSetRecoilState(pinList);
+
+  const imageSize = new window.kakao.maps.Size(24, 24);
+  const markerImage = new window.kakao.maps.MarkerImage(
+    pinDraw,
+    imageSize
+  );
+  const clickMarkerImage = new window.kakao.maps.MarkerImage(
+    pinClick,
+    imageSize
+  );
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const config = {
@@ -74,11 +86,7 @@ const MapView = (props: modalProps) => {
 
       // 저장된핀마커표시
       for (let i = 0; i < pins.length; i++) {
-        const imageSize = new window.kakao.maps.Size(24, 24);
-        const markerImage = new window.kakao.maps.MarkerImage(
-          pinDraw,
-          imageSize
-        );
+       
 
         const latlng = new window.kakao.maps.LatLng(
           pins[i].longitude,
@@ -147,19 +155,20 @@ const MapView = (props: modalProps) => {
   //현재위치마커표시
   function displayMarker(map: any, locPosition: any) {
     const imageSize = new window.kakao.maps.Size(15, 15);
-    const markerImage = new window.kakao.maps.MarkerImage(
+    const currentImage = new window.kakao.maps.MarkerImage(
       CurrentLoc,
       imageSize
     );
 
-    const marker = new window.kakao.maps.Marker({
+    const currentMarker = new window.kakao.maps.Marker({
       map: map,
       position: locPosition,
-      image: markerImage,
+      image: currentImage,
     });
 
     map.setCenter(locPosition);
   }
+
 
   //버튼클릭시 현재위치로 이동
   function handleGpsClick() {
@@ -187,8 +196,35 @@ const MapView = (props: modalProps) => {
     setModalShow(true);
   }
 
-  return (
-    <S.Map>
+  useEffect(() => {
+
+    var clickMarker = new window.kakao.maps.Marker({ 
+      // 지도 중심좌표에 마커를 생성합니다 
+      position: mapRef.current.getCenter(),
+      image: clickMarkerImage, 
+    }); 
+    // 지도에 마커를 표시합니다
+    clickMarker.setMap(mapRef.current);
+    
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    window.kakao.maps.event.addListener(mapRef.current, 'click', function(mouseEvent:any) {        
+      
+      // 클릭한 위도, 경도 정보를 가져옵니다 
+      const latlng = mouseEvent.latLng; 
+      
+      // 마커 위치를 클릭한 위치로 옮깁니다
+      clickMarker.setPosition(latlng);
+      
+      let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+      message += '경도는 ' + latlng.getLng() + ' 입니다';
+      
+      console.log(message);
+      
+    })
+    });
+    return (
+      <S.Map>
       <S.MapViewArea id="map">
       </S.MapViewArea>
       <S.MapBtns>
