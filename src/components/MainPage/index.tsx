@@ -1,5 +1,5 @@
 import { S } from './style';
-import { ReactComponent as Pin } from '../../assests/pin.svg';
+import EmptyViewInfoPin from '../../assests/EmptyViewInfoPin';
 import { useState } from 'react';
 import CreatePinModal from './CreatePinModal';
 import MapView from './MapView';
@@ -59,7 +59,7 @@ const MainPage = () => {
                   <>
                     {isPin ? (
                       <S.EmptyView>
-                        <Pin style={{ opacity: '0.2' }} />
+                        <EmptyViewInfoPin />
                         지도에 있는 버튼을 눌러
                         <br />
                         핀을 생성해보세요!

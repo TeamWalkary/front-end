@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { pinList } from '../../../core/atom';
 import { S } from './style';
-import { ReactComponent as NumberPin } from '../../../assests/numberPin.svg';
+import PinDiaryItemIcon from '../../../assests/PinDiaryItemIcon';
 
 const PinDiaryView = () => {
   const oneDayPinList = useRecoilValue(pinList);
@@ -18,7 +18,7 @@ const PinDiaryView = () => {
             {oneDayPinListReverse.map(pin => (
               <S.Pin key={pin.id}>
                 <S.NumberPinWrapper key={pin.id}>
-                  <NumberPin width='24' height='24'></NumberPin>
+                  <PinDiaryItemIcon />
                   <S.NumberText>{count--}</S.NumberText>
                 </S.NumberPinWrapper>
                 <S.PinContentsWrapper>
