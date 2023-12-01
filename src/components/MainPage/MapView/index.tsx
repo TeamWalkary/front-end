@@ -5,7 +5,7 @@ import CurrentLoc from '../../../assests/currentLocation.svg';
 import pinDraw from '../../../assests/pinDraw.svg';
 import pinClick from '../../../assests/pinClick.svg';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { pinList, position } from '../../../core/atom';
+import { pinList, position} from '../../../core/atom';
 import {pinResponseType} from '../../../types/pin';
 import axios from 'axios';
 
@@ -36,22 +36,20 @@ const bounds = new window.kakao.maps.LatLngBounds();
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const MapView = (props: modalProps) => {
   const { setModalShow } = props;
   const mapRef = useRef<any>(null);
   const pins = useRecoilValue(pinList);
   const setPosition = useSetRecoilState(position);
   const setPinList = useSetRecoilState(pinList);
-
+  
+  
   const imageSize = new window.kakao.maps.Size(24, 24);
   const markerImage = new window.kakao.maps.MarkerImage(
     pinDraw,
     imageSize
-  );
-  const clickMarkerImage = new window.kakao.maps.MarkerImage(
-    pinClick,
-    imageSize
-  );
+    );
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -70,12 +68,13 @@ const MapView = (props: modalProps) => {
   }, []);
 
   useEffect(() => {
+    
     const container = document.getElementById('map');
     const options = {
       center: new window.kakao.maps.LatLng(37.5132612, 127.1001336), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
-
+    
     // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
     mapRef.current = new window.kakao.maps.Map(container!, options);
 
@@ -86,7 +85,6 @@ const MapView = (props: modalProps) => {
 
       // 저장된핀마커표시
       for (let i = 0; i < pins.length; i++) {
-       
 
         const latlng = new window.kakao.maps.LatLng(
           pins[i].longitude,
@@ -187,9 +185,21 @@ const MapView = (props: modalProps) => {
         mapRef.current.setCenter(latlng);
         displayMarker(mapRef.current, latlng);
       });
+
+
+    // function panTo() {
+    //   // 이동할 위도 경도 위치를 생성합니다 
+    //   var moveLatLon = new window.kakao.maps.LatLng(position);
+      
+    //   // 지도 중심을 부드럽게 이동시킵니다
+    //   // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    //   mapRef.current.panTo(moveLatLon);            
+    // }        
+
     } else {
       alert('Geolocation is not supported by this browser.');
     }
+
   }
 
   function handlePinClick() {
@@ -197,7 +207,12 @@ const MapView = (props: modalProps) => {
   }
 
   useEffect(() => {
-
+    const clickMarkerImage = new window.kakao.maps.MarkerImage(
+      pinClick,
+      imageSize
+    );
+  
+    //클릭한 위치에 마커표시
     var clickMarker = new window.kakao.maps.Marker({ 
       // 지도 중심좌표에 마커를 생성합니다 
       position: mapRef.current.getCenter(),
@@ -206,19 +221,35 @@ const MapView = (props: modalProps) => {
     // 지도에 마커를 표시합니다
     clickMarker.setMap(mapRef.current);
     
+    var iwContent = '<div style="padding:5px">핀을 원하는 장소에 찍어보세요!', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+    iwRemoveable = true;
+
+    // 인포윈도우를 생성합니다
+    var infowindow = new window.kakao.maps.InfoWindow({
+    position : mapRef.current.getCenter(), 
+    content : iwContent ,
+    removable : iwRemoveable,
+    zIndex : 1,
+    });
+
+    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+    infowindow.open(mapRef.current, clickMarker); 
+
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     window.kakao.maps.event.addListener(mapRef.current, 'click', function(mouseEvent:any) {        
       
       // 클릭한 위도, 경도 정보를 가져옵니다 
       const latlng = mouseEvent.latLng; 
-      
-      // 마커 위치를 클릭한 위치로 옮깁니다
+
+      // 마커 위치와 인포윈도우를 클릭한 위치로 옮깁니다
       clickMarker.setPosition(latlng);
-      
+      infowindow.setPosition(latlng);
+
       let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
       message += '경도는 ' + latlng.getLng() + ' 입니다';
-      
+    
       console.log(message);
       
     })
