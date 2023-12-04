@@ -10,13 +10,9 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
     request.headers = request.headers || {};
-
     if (localStorage.getItem("token") !== null) {
-      request.headers["Authorization"] = `Bearer ${localStorage.getItem(
-        "token"
-      )}`;
+      request.headers["Authorization"] = `${localStorage.getItem("token")}`;
     }
-
     return request;
   },
   (error) => {
