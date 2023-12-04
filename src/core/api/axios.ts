@@ -1,45 +1,50 @@
-// import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
-// const real = axios.create({
-//   baseURL: "http://127.0.0.1:5173",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
+export const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-// real.interceptors.request.use(
-//   (config: InternalAxiosRequestConfig) => {
-//     const token = localStorage.getItem("token");
+axiosInstance.interceptors.request.use(
+  (request: InternalAxiosRequestConfig) => {
+    request.headers = request.headers || {};
 
-//     if (token) {
-//       config.headers["Authorization"] = `Bearer ${token}`;
-//     }
+    if (localStorage.getItem("token") !== null) {
+      request.headers["Authorization"] = `Bearer ${localStorage.getItem(
+        "token"
+      )}`;
+    }
 
-//     return config;
-//   },
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-//   (error) => Promise.reject(error)
-// );
+export const axiosReq = {
+  async GET(path: string) {
+    const { data } = await axiosInstance(path);
+    return data;
+  },
 
-// export default real;
+  async POST<T>(path: string, body: T) {
+    const { data } = await axiosInstance.post(path, body);
+    return data;
+  },
 
-// export const realReq = {
-//   async GET<T>(path: string, option?: { params: string }) {
-//     const data = await real.get<T>(path, option);
-//     return data.data;
-//   },
+  async PUT<T>(path: string, body: T) {
+    const { data } = await axiosInstance.put(path, body);
+    return data;
+  },
 
-//   async POST<T>(path: string, body: T) {
-//     const data = await real.post(path, body);
-//     return data.data;
-//   },
+  async PATCH<T>(path: string, body: T) {
+    await axiosInstance.patch(path, body);
+  },
 
-//   async PUT<T>(path: string, body: T) {
-//     const data = await real.put(path, body);
-//     return data.data;
-//   },
-
-//   async PATCH<T>(path: string, body: T) {
-//     await real.patch(path, body);
-//   },
-// };
+  async DELETE(path: string) {
+    await axiosInstance.delete(path);
+  },
+};
