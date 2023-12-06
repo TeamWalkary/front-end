@@ -1,0 +1,48 @@
+name: frontend-ci //액션의 이름
+
+on:
+  push :
+    branches :
+      - develop
+    paths : 
+     - "front-end/**"
+  pull_request: 
+    branches : 
+      - develop 
+    paths:
+      - "front-end/**"
+      - .github/workflows/deploy.yml //frontend하위 폴더에서 작업이 일어날때만 실행
+env :
+  working-directory : ./front-end
+jobs:
+  build:
+    runs-on: ubuntu-latest //어떤 머신으로 실행할건지
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node 
+        uses: actions/setup-node@v3
+        with: //캐싱하는 방법
+          node-version: 18
+
+      - name: Install dependencies //종속성 설치하기
+        run: yarn install --immutable
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run build
+        run: yarn run build 
+        working-directory: ${{ env.working-directory }}
+
+      - name : Configure AWS credentials
+        uses : aws-action/configure-aws-credential@v1
+        with :
+          aws-access-key-id : ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key : ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region : ap-northeast-2
+
+      - name : Upload to S3
+        run : aws s3 cp --recursive --region ap-northeast-2 build
+              s3 :
+        working-directory : ${{env.working-directory}}
