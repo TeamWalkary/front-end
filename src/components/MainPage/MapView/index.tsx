@@ -5,9 +5,9 @@ import CurrentLoc from '../../../assests/currentLocation.svg';
 import pinDraw from '../../../assests/pinDraw.svg';
 import pinClick from '../../../assests/pinClick.svg';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { pinList, position} from '../../../core/atom';
-import {pinResponseType} from '../../../types/pin';
+import { pinList, position } from '../../../core/atom';
 import axios from 'axios';
+import { pinResponseType } from '../../../types/pin';
 
 
 declare global {
@@ -43,7 +43,7 @@ const MapView = (props: modalProps) => {
   const pins = useRecoilValue(pinList);
   const setPosition = useSetRecoilState(position);
   const setPinList = useSetRecoilState(pinList);
-  
+
   const imageSize = new window.kakao.maps.Size(24, 24);
   const markerImage = new window.kakao.maps.MarkerImage(
     pinDraw,
@@ -64,7 +64,7 @@ const MapView = (props: modalProps) => {
       .then(res => {
         setPinList(res.data.pins);
       });
-  }, []);
+  }, [pins]);
 
   useEffect(() => {
     
@@ -130,7 +130,7 @@ const MapView = (props: modalProps) => {
     function setBounds() {
       map.setBounds(bounds);
     }
-  }, []);
+  }, [pins]);
 
   //현재위치를 가져옴
   function currentPosition() {
