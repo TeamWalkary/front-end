@@ -4,14 +4,9 @@ on:
   push :
     branches :
       - develop
-    paths : 
-      - "front-end/**"
   pull_request: 
     branches : 
-      - develop 
-    paths:
-      - "front-end/**"
-      - .github/workflows/deploy.yml 
+      - develop
 
 env:
   working-directory: ./front-end
