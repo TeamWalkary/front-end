@@ -33,6 +33,7 @@ jobs:
           aws-access-key-id : ${{ secrets.AWS_ACCESS_KEY_ID}}
           aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws-region : ap-northeast-2
+          AWS_S3_BUCKET: mywalkarybucket
 
       - name: Upload to S3
         run: aws s3 cp --recursive --region ap-northeast-2 dist s3://mywalkarybucket
