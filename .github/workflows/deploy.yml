@@ -1,0 +1,47 @@
+name: frontend-ci 
+
+on:
+  push :
+    branches :
+      - develop
+    paths : 
+     - "front-end/**"
+  pull_request: 
+    branches : 
+      - develop 
+    paths:
+      - "front-end/**"
+      - .github/workflows/deploy.yml 
+env :
+  working-directory : ./front-end
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node 
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18.x
+
+      - name: Install dependencies 
+        run: yarn install --immutable
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run build
+        run: yarn run build 
+        working-directory: ${{ env.working-directory }}
+
+      - name : Configure AWS credentials
+        uses : aws-action/configure-aws-credential@v1
+        with :
+          aws-access-key-id : ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key : ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region : ap-northeast-2
+
+      - name : Upload to S3
+        run : aws s3 cp --recursive --region ap-northeast-2 build s3 ://mywalkarybucket
+        working-directory : ${{env.working-directory}}
