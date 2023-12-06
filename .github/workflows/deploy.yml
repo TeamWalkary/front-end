@@ -3,10 +3,10 @@ name: frontend-ci
 on:
   push :
     branches :
-      - develop
+      - front-github-action
   pull_request: 
     branches : 
-      - develop
+      - front-github-action
 
 jobs:
   build:
