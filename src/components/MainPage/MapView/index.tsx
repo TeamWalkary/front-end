@@ -5,7 +5,8 @@ import { ReactComponent as GpsBtn } from '../../../assests/gpsBtn.svg';
 import CurrentLoc from '../../../assests/currentLocation.svg';
 import pinDraw from '../../../assests/pinDraw.svg';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { pinList, position, pinResponseType } from '../../../core/atom';
+import { pinList, position } from '../../../core/atom';
+import { pinResponseType } from '../../../types/pin';
 import axios from 'axios';
 
 declare global {
@@ -40,6 +41,7 @@ const MapView = (props: modalProps) => {
   const pins = useRecoilValue(pinList);
   const setPosition = useSetRecoilState(position);
   const setPinList = useSetRecoilState(pinList);
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const config = {
@@ -54,7 +56,7 @@ const MapView = (props: modalProps) => {
       .then(res => {
         setPinList(res.data.pins);
       });
-  }, []);
+  }, [pins]);
 
   useEffect(() => {
     const container = document.getElementById('map');
@@ -125,7 +127,7 @@ const MapView = (props: modalProps) => {
     function setBounds() {
       mapRef.current.setBounds(bounds);
     }
-  }, []);
+  }, [pins]);
 
   //현재위치를 가져옴
   function currentPosition() {
