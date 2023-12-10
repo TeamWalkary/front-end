@@ -2,17 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { diaryApi } from "../../../core/api/diary";
+import { DiaryData } from "../../../types/diary";
 
 interface MainViewDairyProps {
   handleChangePin: (v: boolean) => void;
-}
-
-interface DiaryData {
-  id: number;
-  title: string;
-  content: string;
-  image: string;
-  date: number;
 }
 
 export default function MainViewDairy(props: MainViewDairyProps) {
