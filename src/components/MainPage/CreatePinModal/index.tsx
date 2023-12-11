@@ -21,7 +21,7 @@ declare global {
 
 export default function CreatePinModal(props: modalProps) {
   const { setModalShow, latitude, longitude } = props;
-
+  console.log(props)
   const pinModalRef = useRef<HTMLDivElement>(null);
   const clickModalOutSide = (
     event:
@@ -88,6 +88,7 @@ export default function CreatePinModal(props: modalProps) {
   ) => {
     const token = localStorage.getItem('token');
     if (inputPinContents.length >= 1) {
+      console.log(latitude,longitude)
       axios
         .post(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
