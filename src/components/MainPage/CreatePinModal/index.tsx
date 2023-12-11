@@ -64,9 +64,7 @@ export default function CreatePinModal(props: modalProps) {
 
   const [inputPinContents, setInputPinContents] = useState<string>('');
 
-  const handleClearbutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClearbutton = () => {
     setInputPinContents('');
   };
 
@@ -77,15 +75,11 @@ export default function CreatePinModal(props: modalProps) {
     setInputPinContents(pinContentsOnChange);
   };
 
-  const handleClosebutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClosebutton = () => {
     setModalShow(false);
   };
 
-  const handleSaveButton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleSaveButton = () => {
     const token = localStorage.getItem('token');
     if (inputPinContents.length >= 1) {
       axios
