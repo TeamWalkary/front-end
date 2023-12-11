@@ -41,7 +41,10 @@ export default function CreatePinModal(props: modalProps) {
 
   useEffect(() => {
     const callback = (result: any, status: any) => {
-      if (status === window.kakao.maps.services.Status.OK) {
+      if (
+        status === window.kakao.maps.services.Status.OK &&
+        result[0].road_address !== null
+      ) {
         const placeAddress: string = result[0].road_address.address_name;
 
         const ps = new window.kakao.maps.services.Places();
@@ -81,7 +84,7 @@ export default function CreatePinModal(props: modalProps) {
 
   const handleSaveButton = () => {
     const token = localStorage.getItem('token');
-    if (inputPinContents.length >= 1) {
+    if (inputPinContents.length >= 1 && longitude > 0 && latitude > 0) {
       axios
         .post(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
@@ -149,7 +152,13 @@ export default function CreatePinModal(props: modalProps) {
           </S.SecondSection>
           <S.ThirdSection>
             <S.SaveButton
-              disabled={inputPinContents.length === 0 ? true : false}
+              disabled={
+                inputPinContents.length === 0 ||
+                longitude === 0 ||
+                latitude === 0
+                  ? true
+                  : false
+              }
               onClick={handleSaveButton}
             >
               완료
