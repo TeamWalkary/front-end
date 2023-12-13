@@ -31,6 +31,7 @@ jobs:
       - name: Run build
         run: |
           yarn install
+          export VITE_APP_KAKAO_KEY=${{ secrets.VITE_APP_KAKAO_KEY }}
           yarn run build 
 
       - name: Upload to S3
