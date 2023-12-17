@@ -26,7 +26,8 @@ export default function SubmitForms() {
   const checkPw: boolean = inputValue.pw === inputValue.checkPassword;
   const phoneNumberValid: boolean = phoneRegExp.test(inputValue.phoneNumber);
   const emailValid: boolean = emailRegExp.test(inputValue.email);
-  const isValid: boolean = idValid && pwValid && checkPw;
+  const isValid: boolean =
+    idValid && pwValid && checkPw && phoneNumberValid && emailValid;
 
   const navigate = useNavigate();
 
