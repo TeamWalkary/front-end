@@ -11,6 +11,7 @@ export default function SubmitForms() {
     checkPassword: "",
     phoneNumberValid: "",
     email: "",
+    name: "",
   };
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
@@ -24,10 +25,16 @@ export default function SubmitForms() {
   const idValid: boolean = idRegExp.test(inputValue.id);
   const pwValid: boolean = pwRegExp.test(inputValue.pw);
   const checkPw: boolean = inputValue.pw === inputValue.checkPassword;
+  const nameValid: boolean = inputValue.name.length > 0;
   const phoneNumberValid: boolean = phoneRegExp.test(inputValue.phoneNumber);
   const emailValid: boolean = emailRegExp.test(inputValue.email);
   const isValid: boolean =
-    idValid && pwValid && checkPw && phoneNumberValid && emailValid;
+    idValid &&
+    pwValid &&
+    checkPw &&
+    phoneNumberValid &&
+    emailValid &&
+    nameValid;
 
   const navigate = useNavigate();
 
@@ -79,6 +86,15 @@ export default function SubmitForms() {
         required
         handleInput={handleInput}
         isValid={checkPw}
+      />
+      <Input
+        name={"userName"}
+        type={"text"}
+        title={"이름"}
+        validText={"이름을 입력해주세요."}
+        required
+        handleInput={handleInput}
+        isValid={nameValid}
       />
       <Input
         name={"phoneNumber"}
