@@ -6,11 +6,19 @@ export const S = {
       margin-top: 1.2rem;
     }
     width: 29.5rem;
+    input:focus + p {
+      opacity: 1;
+    }
   `,
   IdInputValid: styled.p<{ $isValid: boolean }>`
+    opacity: 0;
     color: #ff0000;
     font-size: 1.2rem;
     visibility: ${(props) => (props.$isValid ? "hidden" : "visible")};
+    &:focus {
+      opacity: 1;
+      color: #ff0000;
+    }
   `,
 
   LoginLabel: styled.p`

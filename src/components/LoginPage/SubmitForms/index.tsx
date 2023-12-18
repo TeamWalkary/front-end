@@ -12,10 +12,12 @@ export default function SubmitForms() {
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
 
-  const eng = /^[a-zA-Z]*$/;
-  const idValid: boolean = eng.test(inputValue.id);
-  // const pwValid: boolean = inputValue.pw.length > 0;
-  const isValid: boolean = !!inputValue.id && !!inputValue.pw;
+  const idRegExp = /^[a-z]+[a-z0-9]{0,19}$/g;
+  const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[?!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+  const idValid: boolean = idRegExp.test(inputValue.id);
+  const pwValid: boolean = pwRegExp.test(inputValue.pw);
+
+  const isValid: boolean = idValid && pwValid;
 
   const navigate = useNavigate();
 
@@ -56,7 +58,7 @@ export default function SubmitForms() {
         validText={"비밀번호를를 확인해주세요."}
         required
         handleInput={handleInput}
-        isValid={true}
+        isValid={pwValid}
       />
       <Button placeholder={"로그인"} isValid={isValid} onclick={postUserData} />
     </>
