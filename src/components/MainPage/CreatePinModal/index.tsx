@@ -21,7 +21,7 @@ declare global {
 
 export default function CreatePinModal(props: modalProps) {
   const { setModalShow, latitude, longitude } = props;
-  console.log(props)
+  console.log(props);
   const pinModalRef = useRef<HTMLDivElement>(null);
   const clickModalOutSide = (
     event:
@@ -41,7 +41,10 @@ export default function CreatePinModal(props: modalProps) {
 
   useEffect(() => {
     const callback = (result: any, status: any) => {
-      if (status === window.kakao.maps.services.Status.OK) {
+      if (
+        status === window.kakao.maps.services.Status.OK &&
+        result[0].road_address !== null
+      ) {
         const placeAddress: string = result[0].road_address.address_name;
 
         const ps = new window.kakao.maps.services.Places();
@@ -64,9 +67,7 @@ export default function CreatePinModal(props: modalProps) {
 
   const [inputPinContents, setInputPinContents] = useState<string>('');
 
-  const handleClearbutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClearbutton = () => {
     setInputPinContents('');
   };
 
@@ -77,18 +78,14 @@ export default function CreatePinModal(props: modalProps) {
     setInputPinContents(pinContentsOnChange);
   };
 
-  const handleClosebutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClosebutton = () => {
     setModalShow(false);
   };
 
-  const handleSaveButton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleSaveButton = () => {
     const token = localStorage.getItem('token');
-    if (inputPinContents.length >= 1) {
-      console.log(latitude,longitude)
+    if (inputPinContents.length >= 1 && longitude > 0 && latitude > 0) {
+      console.log(latitude, longitude);
       axios
         .post(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin

@@ -93,4 +93,19 @@ export const S = {
     font-size: 0.8rem;
     color: #a1a1a1;
   `,
+
+  PinDelete: styled.div`
+    display: flex;
+    margin-left: auto;
+  `,
+
+  PinDeleteButton: styled.button`
+    height: 2rem;
+    font-family: Pretendard-Regular;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #a1a1a1;
+    border: none;
+    background-color: inherit;
+  `,
 };
