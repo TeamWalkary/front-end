@@ -62,7 +62,7 @@ export default function SubmitForms() {
         name={"id"}
         type={"text"}
         title={"아이디"}
-        validText={"20자 이내로 입력해주세요."}
+        placeholder={"20자 이내로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
@@ -71,9 +71,7 @@ export default function SubmitForms() {
         name={"pw"}
         type={"password"}
         title={"비밀번호"}
-        validText={
-          "소문자, 대문자, 특수문자 중 2개 이상 포함하여 8~16자 이내로 입력해주세요."
-        }
+        placeholder={"영문,숫자,특수문자 포함 8~16자 이내로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={pwValid}
@@ -82,16 +80,17 @@ export default function SubmitForms() {
         name={"checkPassword"}
         type={"password"}
         title={"비밀번호 확인"}
+        placeholder={"비밀번호를 한 번 더 입력해주세요."}
         validText={"입력하신 비밀번호와 일치하지 않습니다."}
         required
         handleInput={handleInput}
         isValid={checkPw}
       />
       <Input
-        name={"userName"}
+        name={"name"}
         type={"text"}
         title={"이름"}
-        validText={"이름을 입력해주세요."}
+        placeholder={"이름을 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={nameValid}
@@ -100,7 +99,7 @@ export default function SubmitForms() {
         name={"phoneNumber"}
         type={"text"}
         title={"전화번호"}
-        validText={"01000000000의 형식으로 입력해주세요."}
+        placeholder={"01000000000의 형식으로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={phoneNumberValid}
@@ -109,7 +108,7 @@ export default function SubmitForms() {
         name={"email"}
         type={"text"}
         title={"이메일"}
-        validText={"walkary1@walkary.com 형식으로 입력해주세요."}
+        placeholder={"walkary1@walkary.com 형식으로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={emailValid}
