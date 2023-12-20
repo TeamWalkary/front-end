@@ -12,10 +12,12 @@ export default function SubmitForms() {
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
 
-  const eng = /^[a-zA-Z]*$/;
-  const idValid: boolean = eng.test(inputValue.id);
-  // const pwValid: boolean = inputValue.pw.length > 0;
-  const isValid: boolean = !!inputValue.id && !!inputValue.pw;
+  const idRegExp = /^[a-z]+[a-z0-9]{3,19}$/g;
+  const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[?!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+  const idValid: boolean = idRegExp.test(inputValue.id);
+  const pwValid: boolean = pwRegExp.test(inputValue.pw);
+
+  const isValid: boolean = idValid && pwValid;
 
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ export default function SubmitForms() {
         password: inputValue.pw,
       })
       .then((res) => {
+        // 토큰 console.log(res.headers.authorization);
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/main");
@@ -44,7 +47,7 @@ export default function SubmitForms() {
         name={"id"}
         type={"text"}
         title={"아이디"}
-        validText={"아이디를 확인해주세요."}
+        validText={"아이디를 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
@@ -53,10 +56,10 @@ export default function SubmitForms() {
         name={"pw"}
         type={"password"}
         title={"비밀번호"}
-        validText={"비밀번호를를 확인해주세요."}
+        validText={"비밀번호를를 입력해주세요."}
         required
         handleInput={handleInput}
-        isValid={true}
+        isValid={pwValid}
       />
       <Button placeholder={"로그인"} isValid={isValid} onclick={postUserData} />
     </>
