@@ -24,7 +24,6 @@ export default function Input(props: inputDataProps) {
         required={required}
         onChange={(e) => handleInput(e)}
         autoComplete="off"
-        $isValid={isValid}
       />
       <S.IdInputValid $isValid={isValid}>{validText}</S.IdInputValid>
     </S.LoginWrapper>
