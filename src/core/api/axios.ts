@@ -1,4 +1,4 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
-    request.headers = request.headers || {};
+    request.headers = request.headers || ({} as AxiosRequestHeaders);
     if (localStorage.getItem("token") !== null) {
       request.headers["Authorization"] = `${localStorage.getItem("token")}`;
     }
