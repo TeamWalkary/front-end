@@ -9,14 +9,14 @@ export default function SubmitForms() {
     id: "",
     pw: "",
     checkPassword: "",
-    phoneNumberValid: "",
+    phoneNumber: "",
     email: "",
     name: "",
   };
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
 
-  const idRegExp = /^[a-z]+[a-z0-9]{0,19}$/g;
+  const idRegExp = /^[a-z]+[a-z0-9]{3,19}$/g;
   const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[?!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   const phoneRegExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
   const emailRegExp =
@@ -43,15 +43,24 @@ export default function SubmitForms() {
       .post(`${import.meta.env.VITE_APP_BASE_URL}/apis/signup`, {
         userId: inputValue.id,
         password: inputValue.pw,
+        username: inputValue.name,
+        email: inputValue.email,
+        phoneNumber: inputValue.phoneNumber,
       })
       .then((data) => {
+        console.log(data.data.message);
         if (data.status === 200) {
           navigate("/login");
-        } else if (data.status === 400) {
-          alert("아이디 또는 비밀번호 다시 확인해주세요.");
         }
       })
       .catch((error) => {
+        if (error.response.data.message === "이미 존재하는 아이디입니다.") {
+          alert("이미 가입된 회원입니다.");
+        } else {
+          alert(
+            "아이디, 비밀번호, 이름, 전화번호, 이메일 모두 조건에 맞게 입력 후 다시 시도해주세요."
+          );
+        }
         console.log(error);
       });
   };
