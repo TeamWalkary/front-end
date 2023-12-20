@@ -1,16 +1,16 @@
-import styled from 'styled-components';
-import { ReactComponent as Check } from '../../assests/check.svg';
-import { ReactComponent as BackArrow } from '../../assests/backArrow.svg';
-import { ReactComponent as Picture } from '../../assests/picture.svg';
-import { useState, ChangeEvent, useRef } from 'react';
-import Today from '../Common/Today';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import styled from "styled-components";
+import { ReactComponent as Check } from "../../assests/check.svg";
+import { ReactComponent as BackArrow } from "../../assests/backArrow.svg";
+import { ReactComponent as Picture } from "../../assests/picture.svg";
+import { useState, ChangeEvent, useRef } from "react";
+import Today from "../Common/Today";
+import { useNavigate } from "react-router-dom";
+import { diaryApi } from "../../core/api/diary";
 
 export default function DiaryPage() {
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const navigate = useNavigate();
 
@@ -43,15 +43,14 @@ export default function DiaryPage() {
     fileInputRef.current?.click();
   };
 
-  const token = localStorage.getItem('token');
   const handleSubmit = async () => {
     if (!text || !title) {
-      alert('일기의 제목과 내용을 작성해주세요!');
+      alert("일기의 제목과 내용을 작성해주세요!");
       return;
     }
 
     if (text.length > 500) {
-      alert('일기의 내용이 500자를 초과했습니다.');
+      alert("일기의 내용이 500자를 초과했습니다.");
       return;
     }
 
@@ -62,17 +61,9 @@ export default function DiaryPage() {
     };
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_BASE_URL}/apis/diary`,
-        postData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log(response);
-      navigate('/main', { state: { todayDiary: true } });
+      await diaryApi.postDiary(postData);
+      console.log(postData);
+      navigate("/main", { state: { todayDiary: true } });
     } catch (error) {
       console.error(error);
     }
@@ -81,7 +72,7 @@ export default function DiaryPage() {
   return (
     <Container>
       <DiaryHeader>
-        <BackArrow onClick={() => navigate('/main')} />
+        <BackArrow onClick={() => navigate("/main")} />
         <Today />
         <Check
           //style={{ opacity: `${validate ? "1" : "0.4"}` }}
@@ -91,13 +82,13 @@ export default function DiaryPage() {
       </DiaryHeader>
       <InputArea>
         <TitleInput
-          placeholder='제목'
+          placeholder="제목"
           value={title}
           onChange={handleChangeTitle}
         />
         {imageUrl && (
           <ImageWrapper>
-            <PreviewImage src={imageUrl} alt='preview' />
+            <PreviewImage src={imageUrl} alt="preview" />
           </ImageWrapper>
         )}
         <ContentInput
@@ -108,9 +99,9 @@ export default function DiaryPage() {
           <div>
             <Picture onClick={fileInputHandler} />
             <input
-              type='file'
+              type="file"
               onChange={handleChangeImage}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               ref={fileInputRef}
             />
           </div>
