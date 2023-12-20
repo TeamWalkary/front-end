@@ -24,8 +24,9 @@ export default function SubmitForms() {
 
   const idValid: boolean = idRegExp.test(inputValue.id);
   const pwValid: boolean = pwRegExp.test(inputValue.pw);
-  const checkPw: boolean = inputValue.pw === inputValue.checkPassword;
-  const nameValid: boolean = inputValue.name.length > 0;
+  const checkPw: boolean =
+    inputValue.pw.length > 0 && inputValue.pw === inputValue.checkPassword;
+  const nameValid: boolean = inputValue.name.length >= 2;
   const phoneNumberValid: boolean = phoneRegExp.test(inputValue.phoneNumber);
   const emailValid: boolean = emailRegExp.test(inputValue.email);
   const isValid: boolean =
@@ -48,7 +49,6 @@ export default function SubmitForms() {
         phoneNumber: inputValue.phoneNumber,
       })
       .then((data) => {
-        console.log(data.data.message);
         if (data.status === 200) {
           navigate("/login");
         }
@@ -71,7 +71,7 @@ export default function SubmitForms() {
         name={"id"}
         type={"text"}
         title={"아이디"}
-        placeholder={"20자 이내로 입력해주세요."}
+        validText={"4~20자 이내로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
@@ -80,7 +80,7 @@ export default function SubmitForms() {
         name={"pw"}
         type={"password"}
         title={"비밀번호"}
-        placeholder={"영문,숫자,특수문자 포함 8~16자 이내로 입력해주세요."}
+        validText={"대문자,소문자,숫자 포함 8~16자 이내로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={pwValid}
@@ -89,8 +89,7 @@ export default function SubmitForms() {
         name={"checkPassword"}
         type={"password"}
         title={"비밀번호 확인"}
-        placeholder={"비밀번호를 한 번 더 입력해주세요."}
-        validText={"입력하신 비밀번호와 일치하지 않습니다."}
+        validText={"비밀번호를 한 번 더 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={checkPw}
@@ -98,8 +97,8 @@ export default function SubmitForms() {
       <Input
         name={"name"}
         type={"text"}
-        title={"이름"}
-        placeholder={"이름을 입력해주세요."}
+        title={"닉네임"}
+        validText={"2~10자 이내로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={nameValid}
@@ -108,7 +107,7 @@ export default function SubmitForms() {
         name={"phoneNumber"}
         type={"text"}
         title={"전화번호"}
-        placeholder={"01000000000의 형식으로 입력해주세요."}
+        validText={"01000000000의 형식으로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={phoneNumberValid}
@@ -117,7 +116,7 @@ export default function SubmitForms() {
         name={"email"}
         type={"text"}
         title={"이메일"}
-        placeholder={"walkary1@walkary.com 형식으로 입력해주세요."}
+        validText={"walkary1@walkary.com 형식으로 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={emailValid}
