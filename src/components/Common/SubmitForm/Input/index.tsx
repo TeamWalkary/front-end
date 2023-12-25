@@ -13,7 +13,6 @@ interface inputDataProps {
 export default function Input(props: inputDataProps) {
   const { name, title, type, required, handleInput, isValid, validText } =
     props;
-  // const checkPw = title === "비밀번호 확인";
 
   return (
     <S.LoginWrapper>
@@ -26,12 +25,7 @@ export default function Input(props: inputDataProps) {
         onChange={(e) => handleInput(e)}
         autoComplete="off"
       />
-      <S.IdInputValid $isValid={isValid}>
-        {/* {checkPw
-          ? "입력하신 비밀번호와 일치하지 않습니다."
-          : `${title}를 입력해주세요.`} */}
-        {validText}
-      </S.IdInputValid>
+      <S.IdInputValid $isValid={isValid}>{validText}</S.IdInputValid>
     </S.LoginWrapper>
   );
 }

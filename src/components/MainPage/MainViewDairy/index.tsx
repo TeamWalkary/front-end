@@ -1,67 +1,43 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
+import { diaryApi } from "../../../core/api/diary";
+import { DiaryData } from "../../../types/diary";
 
 interface MainViewDairyProps {
   handleChangePin: (v: boolean) => void;
-}
-
-interface DiaryData {
-  id: number;
-  title: string;
-  content: string;
-  image: string;
 }
 
 export default function MainViewDairy(props: MainViewDairyProps) {
   const { handleChangePin } = props;
   const navigate = useNavigate();
   const [diaryData, setDiaryData] = useState<DiaryData | null>();
-  const token = localStorage.getItem('token');
-  //console.log(todayDiary);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(response => {
-        setDiaryData(response.data);
-      })
-      .catch(error => console.error(`Error: ${error}`));
+    fetchDiaryData();
   }, []);
 
+  const fetchDiaryData = async () => {
+    const response = await diaryApi.fetchDiary();
+    response ? setDiaryData(response) : null;
+  };
+
   const handleEdit = () => {
-    alert('서비스 준비 중입니다.');
+    alert("서비스 준비 중입니다.");
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_APP_BASE_URL}/apis/main/diary/${diaryData.id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log(response);
-      console.log('삭제되었습니다!');
-      handleChangePin(true);
-      navigate('/main', { state: { todayDiary: true } });
-    } catch (error) {
-      console.error(error);
-    }
+    if (!diaryData) return;
+    await diaryApi.deleteDiary(diaryData.id);
+    handleChangePin(true);
+    //navigate("/main", { state: { todayDiary: true } });
   };
 
   if (!diaryData)
     return (
       <EmptyWrapper>
         <EmptyText>아직 오늘의 일기가 없네요!</EmptyText>
-        <DiaryBtn onClick={() => navigate('/diary')}>일기쓰기</DiaryBtn>
+        <DiaryBtn onClick={() => navigate("/diary")}>일기쓰기</DiaryBtn>
       </EmptyWrapper>
     );
 
@@ -78,7 +54,7 @@ export default function MainViewDairy(props: MainViewDairyProps) {
           </HeaderWrapper>
           {diaryData?.image && (
             <ImageWrapper>
-              <Image src={diaryData.image} alt='이미지' />
+              <Image src={diaryData.image} alt="이미지" />
             </ImageWrapper>
           )}
           <ContentWrapper>{diaryData.content}</ContentWrapper>
@@ -90,6 +66,7 @@ export default function MainViewDairy(props: MainViewDairyProps) {
 
 const Container = styled.section`
   margin: 2rem;
+  position: relative;
 `;
 
 const HeaderWrapper = styled.div`
@@ -110,7 +87,7 @@ const Title = styled.strong`
 
 const BtnWrapper = styled.div`
   position: absolute;
-  right: 2rem;
+  right: 0;
 `;
 
 const EditButton = styled.button`
