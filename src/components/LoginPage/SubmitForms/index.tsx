@@ -35,16 +35,11 @@ export default function SubmitForms() {
       )
       .then(res => {
         if (res.status === 200) {
-          console.log('수정 반영');
-          const config = {
-            params: { sortBy: 'LATEST' },
-          };
-          axiosInstance
-            .get<pinResponseType>('/apis/main/maps-pin', config)
-            .then(res => {
-              console.log(res.data.pins);
-            });
+          navigate('/main');
         }
+      })
+      .catch(res => {
+        console.log(res);
       });
   };
 
