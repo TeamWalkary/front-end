@@ -9,17 +9,17 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(response => {
-  const customHeader = response.headers['Authorization'];
+  //const customHeader = response.headers['Authorization'];
 
-  console.log(response.headers['refreshAuthorization']);
+  //console.log(response.headers['refreshAuthorization']);
 
-  console.log(response.headers);
+  //console.log(response.headers);
   //const yourCookieValue = document.cookie
   //  .split('; ')
   //  .find(row => row.startsWith('refreshAuthorization='))
   //  .split('=')[1];
 
-  axiosInstance.defaults.headers.common['Authorization'] = customHeader;
+  //axiosInstance.defaults.headers.common['Authorization'] = customHeader;
   //axiosInstance.defaults.headers.common[
   // 'Cookie'
   //] = `refreshAuthorization=${yourCookieValue}`;
