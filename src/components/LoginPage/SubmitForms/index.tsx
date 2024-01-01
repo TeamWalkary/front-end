@@ -25,13 +25,17 @@ export default function SubmitForms() {
 
   const postUserData = () => {
     axiosInstance
-      .post('/apis/login', {
-        userId: inputValue.id,
-        password: inputValue.pw,
-      })
+      .post(
+        '/apis/login',
+        {
+          userId: inputValue.id,
+          password: inputValue.pw,
+        },
+        { withCredentials: true }
+      )
       .then(res => {
         if (res.status === 200) {
-          console.log(document.cookie);
+          console.log('수정 반영');
           const config = {
             params: { sortBy: 'LATEST' },
           };
