@@ -125,6 +125,7 @@ export default function SubmitForms() {
         placeholder={'가입 완료하기'}
         isValid={isValid}
         onclick={postUserData}
+        width={true}
       />
     </>
   );

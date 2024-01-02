@@ -1,15 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import useInputValue from '../../../hooks/useInputValue';
-import Input from '../../Common/SubmitForm/Input';
-import Button from '../../Common/SubmitForm/Button';
-import axios from 'axios';
-import { axiosInstance } from '../../../core/api/axios';
-import { pinResponseType } from '../../../types/pin';
+import { useNavigate } from "react-router-dom";
+import useInputValue from "../../../hooks/useInputValue";
+import Input from "../../Common/SubmitForm/Input";
+import Button from "../../Common/SubmitForm/Button";
+import axios from "axios";
+import { axiosInstance } from "../../../core/api/axios";
+import { pinResponseType } from "../../../types/pin";
 
 export default function SubmitForms() {
   const initInputValue = {
-    id: '',
-    pw: '',
+    id: "",
+    pw: "",
   };
 
   const { inputValue, handleInput } = useInputValue(initInputValue);
@@ -26,19 +26,19 @@ export default function SubmitForms() {
   const postUserData = () => {
     axiosInstance
       .post(
-        '/apis/login',
+        "/apis/login",
         {
           userId: inputValue.id,
           password: inputValue.pw,
         },
         { withCredentials: true }
       )
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
-          navigate('/main');
+          navigate("/main");
         }
       })
-      .catch(res => {
+      .catch((res) => {
         console.log(res);
       });
   };
@@ -46,24 +46,29 @@ export default function SubmitForms() {
   return (
     <>
       <Input
-        name={'id'}
-        type={'text'}
-        title={'아이디'}
-        validText={'아이디를 입력해주세요.'}
+        name={"id"}
+        type={"text"}
+        title={"아이디"}
+        validText={"아이디를 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={idValid}
       />
       <Input
-        name={'pw'}
-        type={'password'}
-        title={'비밀번호'}
-        validText={'비밀번호를를 입력해주세요.'}
+        name={"pw"}
+        type={"password"}
+        title={"비밀번호"}
+        validText={"비밀번호를를 입력해주세요."}
         required
         handleInput={handleInput}
         isValid={pwValid}
       />
-      <Button placeholder={'로그인'} isValid={isValid} onclick={postUserData} />
+      <Button
+        placeholder={"로그인"}
+        isValid={isValid}
+        onclick={postUserData}
+        width={true}
+      />
     </>
   );
 }

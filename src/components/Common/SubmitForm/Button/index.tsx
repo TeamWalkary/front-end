@@ -4,7 +4,7 @@ interface inputDataProps {
   placeholder: string;
   isValid: boolean;
   onclick?: () => void;
-  width?: number;
+  width?: boolean;
 }
 
 export default function Button(props: inputDataProps) {
