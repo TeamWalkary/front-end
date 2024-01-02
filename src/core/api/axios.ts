@@ -7,16 +7,14 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
     request.headers = request.headers || ({} as AxiosRequestHeaders);
-    // const token: RecoilState<string> = tokenState;
-    const token = useRecoilValue(tokenState);
-    console.log("axios>>", token);
-    if (token !== "") {
-      request.headers["Authorization"] = `${token}`;
+    if (localStorage.getItem("token") !== null) {
+      request.headers["Authorization"] = `${localStorage.getItem("token")}`;
     }
     return request;
   },
