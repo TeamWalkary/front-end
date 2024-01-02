@@ -18,12 +18,7 @@ export default function LandingPage() {
         발자취 따라 써보는 <br />
         오늘 하루 일기
       </S.LandingMsg>
-      <Button
-        placeholder={"시작하기"}
-        isValid={true}
-        onclick={clickHandler}
-        width={16}
-      />
+      <Button placeholder={"시작하기"} isValid={true} onclick={clickHandler} />
     </S.Landing>
   );
 }

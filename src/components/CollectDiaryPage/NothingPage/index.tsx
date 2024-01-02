@@ -19,7 +19,6 @@ export default function NothingPage() {
           onclick={() => navigate("/main")}
           placeholder={"일기쓰기"}
           isValid={true}
-          width={16}
         />
       </div>
     </S.Container>

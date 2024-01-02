@@ -61,7 +61,12 @@ export default function SubmitForms() {
         handleInput={handleInput}
         isValid={pwValid}
       />
-      <Button placeholder={"로그인"} isValid={isValid} onclick={postUserData} />
+      <Button
+        placeholder={"로그인"}
+        isValid={isValid}
+        onclick={postUserData}
+        width={true}
+      />
     </>
   );
 }
