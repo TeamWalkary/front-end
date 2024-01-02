@@ -1,19 +1,30 @@
-import { atom, selector } from 'recoil';
-import { pinListType } from '../types/pin';
-import { positionType } from '../types/map';
-import axios from 'axios';
+import { atom } from "recoil";
+import { pinListType } from "../types/pin";
+import { positionType } from "../types/map";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist({
+  key: "localStorage",
+  storage: localStorage,
+});
 
 export const position = atom<positionType>({
-  key: 'position',
+  key: "position",
   default: {
     currentLongitude: 0,
     currentLatitude: 0,
-   },
+  },
 });
 
 export const pinList = atom<pinListType[]>({
-  key: 'pinList',
+  key: "pinList",
   default: [],
+});
+
+export const tokenState = atom({
+  key: "token",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 // export const pinList = selector({

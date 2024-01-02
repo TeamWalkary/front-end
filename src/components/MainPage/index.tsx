@@ -1,12 +1,12 @@
-import { S } from './style';
-import EmptyViewInfoPin from '../../assests/EmptyViewInfoPin';
-import { useState } from 'react';
-import CreatePinModal from './CreatePinModal';
-import MapView from './MapView';
-import { useRecoilValue } from 'recoil';
-import { position, pinList } from '../../core/atom';
-import PinDiaryView from './PinDiaryView';
-import MainViewDairy from './MainViewDairy';
+import { S } from "./style";
+import EmptyViewInfoPin from "../../assests/EmptyViewInfoPin";
+import { useState } from "react";
+import CreatePinModal from "./CreatePinModal";
+import MapView from "./MapView";
+import { useRecoilValue } from "recoil";
+import { position, pinList, tokenState } from "../../core/atom";
+import PinDiaryView from "./PinDiaryView";
+import MainViewDairy from "./MainViewDairy";
 
 const MainPage = () => {
   const Position = useRecoilValue(position);
@@ -18,6 +18,8 @@ const MainPage = () => {
   const handleChangePin = (v: boolean) => {
     setIsPin(v);
   };
+  const token = useRecoilValue(tokenState);
+  console.log(">>", token);
 
   return (
     <>
@@ -39,13 +41,13 @@ const MainPage = () => {
                 </S.MapArea>
                 <S.RecordTitleArea>
                   <S.RecordTitle
-                    className={isPin ? 'active' : ''}
+                    className={isPin ? "active" : ""}
                     onClick={() => setIsPin(true)}
                   >
                     핀 기록
                   </S.RecordTitle>
                   <S.RecordTitle
-                    className={isPin ? '' : 'active'}
+                    className={isPin ? "" : "active"}
                     onClick={() => setIsPin(false)}
                   >
                     일기

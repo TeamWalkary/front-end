@@ -1,4 +1,6 @@
 import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from "axios";
+import { RecoilState, useRecoilValue } from "recoil";
+import { tokenState } from "../atom";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -10,8 +12,11 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
     request.headers = request.headers || ({} as AxiosRequestHeaders);
-    if (localStorage.getItem("token") !== null) {
-      request.headers["Authorization"] = `${localStorage.getItem("token")}`;
+    // const token: RecoilState<string> = tokenState;
+    const token = useRecoilValue(tokenState);
+    console.log("axios>>", token);
+    if (token !== "") {
+      request.headers["Authorization"] = `${token}`;
     }
     return request;
   },
