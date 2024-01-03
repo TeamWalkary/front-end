@@ -3,8 +3,6 @@ import useInputValue from "../../../hooks/useInputValue";
 import Input from "../../Common/SubmitForm/Input";
 import Button from "../../Common/SubmitForm/Button";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { tokenState } from "../../../core/atom";
 
 export default function SubmitForms() {
   const initInputValue = {
@@ -21,7 +19,6 @@ export default function SubmitForms() {
   const isValid: boolean = idValid && pwValid;
 
   const navigate = useNavigate();
-  const setToken = useSetRecoilState(tokenState);
 
   const postUserData = async () => {
     try {
@@ -34,15 +31,9 @@ export default function SubmitForms() {
       );
 
       if (res.status === 200) {
-        // console.log(res.headers.authorization);
-        await setToken(res.headers.authorization);
-        navigate("/main");
         const token = res.headers.authorization;
-        res.cookie("access_token", token, {
-          secure: true, // HTTPS에서만 전송
-          httpOnly: true, // JavaScript에서 접근 불가
-          sameSite: "strict", // 같은 사이트에서만 쿠키 전송
-        });
+        localStorage.setItem("token", token);
+        navigate("/main");
       }
     } catch (error) {
       console.log(error);

@@ -1,6 +1,4 @@
 import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from "axios";
-import { RecoilState, useRecoilValue } from "recoil";
-import { tokenState } from "../atom";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -16,6 +14,7 @@ axiosInstance.interceptors.request.use(
     if (localStorage.getItem("token") !== null) {
       request.headers["Authorization"] = `${localStorage.getItem("token")}`;
     }
+    request = { ...request, withCredentials: true };
     return request;
   },
   (error) => {

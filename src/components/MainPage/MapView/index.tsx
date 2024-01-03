@@ -1,12 +1,12 @@
-import { S } from './style';
-import React, { useEffect, useRef } from 'react';
-import CurrentLoc from '../../../assests/currentLocation.svg';
-import pinDraw from '../../../assests/pinDraw.svg';
-import pinClick from '../../../assests/pinClick.svg';
-import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
-import { pinList, position } from '../../../core/atom';
-import { pinResponseType } from '../../../types/pin';
-import axios from 'axios';
+import { S } from "./style";
+import React, { useEffect, useRef } from "react";
+import CurrentLoc from "../../../assests/currentLocation.svg";
+import pinDraw from "../../../assests/pinDraw.svg";
+import pinClick from "../../../assests/pinClick.svg";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
+import { pinList, position } from "../../../core/atom";
+import { pinResponseType } from "../../../types/pin";
+import axios from "axios";
 
 declare global {
   interface Window {
@@ -16,15 +16,15 @@ declare global {
 
 const positions = [
   {
-    title: '진저베어',
+    title: "진저베어",
     latlng: new window.kakao.maps.LatLng(37.509138, 127.105394),
   },
   {
-    title: '석촌호수',
+    title: "석촌호수",
     latlng: new window.kakao.maps.LatLng(37.511667, 127.105191),
   },
   {
-    title: '롯데백화점',
+    title: "롯데백화점",
     latlng: new window.kakao.maps.LatLng(37.5125295, 127.102305),
   },
 ];
@@ -65,10 +65,11 @@ const MapView = (props: modalProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const config = {
           headers: { Authorization: token },
-          params: { sortBy: 'LATEST' },
+          withCredentials: true,
+          params: { sortBy: "LATEST" },
         };
         const res = await axios.get<pinResponseType>(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/main/maps-pin`,
@@ -83,7 +84,7 @@ const MapView = (props: modalProps) => {
   }, []);
 
   useEffect(() => {
-    const container = document.getElementById('map');
+    const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.5132612, 127.1001336), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
@@ -129,9 +130,9 @@ const MapView = (props: modalProps) => {
           map: mapRef.current,
           path: linePath, // 선을 구성하는 좌표배열
           strokeWeight: 4, // 선의 두께
-          strokeColor: '#7bed9f', // 선의 색깔
+          strokeColor: "#7bed9f", // 선의 색깔
           strokeOpacity: 1, // 선의 불투명도
-          strokeStyle: 'solid', // 선의 스타일
+          strokeStyle: "solid", // 선의 스타일
         });
       }
       mapRef.current.setBounds(bounds);
@@ -221,7 +222,7 @@ const MapView = (props: modalProps) => {
     // 마커에 마우스오버 이벤트를 등록합니다
     window.kakao.maps.event.addListener(
       currentMarker,
-      'mouseover',
+      "mouseover",
       function () {
         // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
         infowindow.open(map, currentMarker);
@@ -229,14 +230,14 @@ const MapView = (props: modalProps) => {
     );
 
     // 마커에 마우스아웃 이벤트를 등록합니다
-    window.kakao.maps.event.addListener(currentMarker, 'mouseout', function () {
+    window.kakao.maps.event.addListener(currentMarker, "mouseout", function () {
       // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
       infowindow.close();
     });
 
     window.kakao.maps.event.addListener(
       currentMarker,
-      'click',
+      "click",
       function (mouseEvent: any) {
         //   console.log("locPosition")
         //   console.log(locPosition.latitude)
@@ -250,8 +251,8 @@ const MapView = (props: modalProps) => {
         const latlng = mouseEvent.locPosition;
         //console.log('현재위치latlng');
 
-        let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-        message += '경도는 ' + latlng.getLng() + ' 입니다';
+        let message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
+        message += "경도는 " + latlng.getLng() + " 입니다";
         setPosition({
           currentLatitude: latlng.getLat(),
           currentLongitude: latlng.getLng(),
@@ -289,7 +290,7 @@ const MapView = (props: modalProps) => {
       //   mapRef.current.panTo(moveLatLon);
       // }
     } else {
-      alert('Geolocation is not supported by this browser.');
+      alert("Geolocation is not supported by this browser.");
     }
   }
 
@@ -330,7 +331,7 @@ const MapView = (props: modalProps) => {
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     window.kakao.maps.event.addListener(
       mapRef.current,
-      'click',
+      "click",
       function (mouseEvent: any) {
         // 클릭한 위도, 경도 정보를 가져옵니다
         const latlng = mouseEvent.latLng;
@@ -339,8 +340,8 @@ const MapView = (props: modalProps) => {
         clickMarker.setPosition(latlng);
         infowindow.setPosition(latlng);
 
-        let message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-        message += '경도는 ' + latlng.getLng() + ' 입니다';
+        let message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
+        message += "경도는 " + latlng.getLng() + " 입니다";
         setPosition({
           currentLatitude: latlng.getLat(),
           currentLongitude: latlng.getLng(),
@@ -352,7 +353,7 @@ const MapView = (props: modalProps) => {
 
   return (
     <S.Map>
-      <S.MapViewArea id='map'></S.MapViewArea>
+      <S.MapViewArea id="map"></S.MapViewArea>
       <S.MapBtns>
         <S.Gps onClick={handleGpsClick} />
         <S.Pin onClick={handlePinClick} />

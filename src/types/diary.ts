@@ -11,3 +11,10 @@ export interface PostData {
   content: string;
   image?: string;
 }
+export interface CollectDiaryData {
+  id: string;
+  title: string;
+  date: number;
+  image: string;
+  content: string;
+}

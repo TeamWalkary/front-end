@@ -4,7 +4,7 @@ import { useState } from "react";
 import CreatePinModal from "./CreatePinModal";
 import MapView from "./MapView";
 import { useRecoilValue } from "recoil";
-import { position, pinList, tokenState } from "../../core/atom";
+import { position, pinList } from "../../core/atom";
 import PinDiaryView from "./PinDiaryView";
 import MainViewDairy from "./MainViewDairy";
 
@@ -18,8 +18,6 @@ const MainPage = () => {
   const handleChangePin = (v: boolean) => {
     setIsPin(v);
   };
-  const token = useRecoilValue(tokenState);
-  console.log(">>", token);
 
   return (
     <>

@@ -3,12 +3,13 @@ import { S } from "./style";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import NothingPage from "./NothingPage";
+// import { diaryApi } from "../../core/api/collectDiary";
 
 type Diarys = {
   id: string;
   title: string;
   date: number;
-  iamge: string;
+  image: string;
   content: string;
 };
 
@@ -24,6 +25,7 @@ export default function CollectDiaryPage() {
         headers: {
           Authorization: token,
         },
+        withCredentials: true,
         params: {
           limit: 5,
           offset: 0,
@@ -42,6 +44,15 @@ export default function CollectDiaryPage() {
       });
   }, []);
 
+  // useEffect(() => {
+  //   fetchDiaryData();
+  // }, []);
+
+  // const fetchDiaryData = async () => {
+  //   const response = await diaryApi.fetchDiary();
+  //   response ? setAllDiaryData(response) : null;
+  // };
+
   return (
     <S.Container>
       {allDiaryData.length > 0 ? (
@@ -54,7 +65,7 @@ export default function CollectDiaryPage() {
                   <header>{diary.title}</header>
                   <p>{diary.date}</p>
                 </div>
-                <img alt="일기 이미지" src={diary.iamge}></img>
+                {diary.image && <img alt="일기 이미지" src={diary.image}></img>}
                 <main>{diary.content}</main>
               </S.DiaryList>
             );
