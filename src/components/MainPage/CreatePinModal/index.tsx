@@ -1,11 +1,11 @@
-import { S } from './style';
-import PinModalCloseButton from '../../../assests/PinModalCloseButton';
-import PinModalAddressNameClearButton from '../../../assests/PinModalAddressNameClearButton';
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { pinList } from '../../../core/atom';
-import { useSetRecoilState } from 'recoil';
-import { pinResponseType } from '../../../types/pin';
+import { S } from "./style";
+import PinModalCloseButton from "../../../assests/PinModalCloseButton";
+import PinModalAddressNameClearButton from "../../../assests/PinModalAddressNameClearButton";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { pinList } from "../../../core/atom";
+import { useSetRecoilState } from "recoil";
+import { pinResponseType } from "../../../types/pin";
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,19 +55,19 @@ export default function CreatePinModal(props: modalProps) {
           }
         );
       } else {
-        setInputPinContents('');
+        setInputPinContents("");
       }
     };
 
     geocoder.coord2Address(longitude, latitude, callback);
   }, []);
 
-  const [inputPinContents, setInputPinContents] = useState<string>('');
+  const [inputPinContents, setInputPinContents] = useState<string>("");
 
   const handleClearbutton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setInputPinContents('');
+    setInputPinContents("");
   };
 
   const handlePinContentsInput = (
@@ -86,7 +86,7 @@ export default function CreatePinModal(props: modalProps) {
   const handleSaveButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (inputPinContents.length >= 1) {
       //console.log(latitude,longitude)
       axios
@@ -102,24 +102,26 @@ export default function CreatePinModal(props: modalProps) {
             headers: {
               Authorization: token,
             },
+            withCredentials: true,
           }
         )
-        .then(res => {
+        .then((res) => {
           const config = {
             headers: { Authorization: token },
-            params: { sortBy: 'LATEST' },
+            withCredentials: true,
+            params: { sortBy: "LATEST" },
           };
           axios
             .get<pinResponseType>(
-              'https://api.walkary.fun/apis/main/maps-pin',
+              "https://api.walkary.fun/apis/main/maps-pin",
               config
             )
-            .then(res => {
+            .then((res) => {
               setPinList(res.data.pins);
               setModalShow(false);
             });
         })
-        .catch(res => {});
+        .catch((res) => {});
     }
   };
 
@@ -127,7 +129,7 @@ export default function CreatePinModal(props: modalProps) {
     <>
       <S.Container
         ref={pinModalRef}
-        onClick={event => clickModalOutSide(event)}
+        onClick={(event) => clickModalOutSide(event)}
       >
         <S.ModalContainer>
           <S.FirstSection>
@@ -146,7 +148,7 @@ export default function CreatePinModal(props: modalProps) {
                 value={inputPinContents}
                 maxLength={20}
                 placeholder={
-                  inputPinContents.length === 0 ? '아늑하고 포근한 우리집' : ''
+                  inputPinContents.length === 0 ? "아늑하고 포근한 우리집" : ""
                 }
               />
               <S.CloseButtonContainer onClick={handleClearbutton}>

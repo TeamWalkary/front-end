@@ -3,8 +3,6 @@ import useInputValue from "../../../hooks/useInputValue";
 import Input from "../../Common/SubmitForm/Input";
 import Button from "../../Common/SubmitForm/Button";
 import axios from "axios";
-import { axiosInstance } from "../../../core/api/axios";
-import { pinResponseType } from "../../../types/pin";
 
 export default function SubmitForms() {
   const initInputValue = {
@@ -18,29 +16,31 @@ export default function SubmitForms() {
   const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[?!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   const idValid: boolean = idRegExp.test(inputValue.id);
   const pwValid: boolean = pwRegExp.test(inputValue.pw);
-
   const isValid: boolean = idValid && pwValid;
 
   const navigate = useNavigate();
 
-  const postUserData = () => {
-    axiosInstance
-      .post(
-        "/apis/login",
+  const postUserData = async () => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_APP_BASE_URL}/apis/login`,
         {
           userId: inputValue.id,
           password: inputValue.pw,
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/main");
         }
-      })
-      .catch((res) => {
-        console.log(res);
-      });
+      );
+
+      if (res.status === 200) {
+        const token = res.headers.authorization;
+        localStorage.setItem("token", token);
+        navigate("/main");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response && error.response.status === 400) {
+        alert("아이디 또는 비밀번호 다시 확인해주세요.");
+      }
+    }
   };
 
   return (
@@ -63,12 +63,7 @@ export default function SubmitForms() {
         handleInput={handleInput}
         isValid={pwValid}
       />
-      <Button
-        placeholder={"로그인"}
-        isValid={isValid}
-        onclick={postUserData}
-        width={true}
-      />
+      <Button placeholder={"로그인"} isValid={isValid} onclick={postUserData} />
     </>
   );
 }

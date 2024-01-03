@@ -1,31 +1,26 @@
-import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   withCredentials: true,
 });
 
-axiosInstance.interceptors.response.use(response => {
-  //const customHeader = response.headers['Authorization'];
-
-  //console.log(response.headers['refreshAuthorization']);
-
-  //console.log(response.headers);
-  //const yourCookieValue = document.cookie
-  //  .split('; ')
-  //  .find(row => row.startsWith('refreshAuthorization='))
-  //  .split('=')[1];
-
-  //axiosInstance.defaults.headers.common['Authorization'] = customHeader;
-  //axiosInstance.defaults.headers.common[
-  // 'Cookie'
-  //] = `refreshAuthorization=${yourCookieValue}`;
-
-  return response;
-});
+axiosInstance.interceptors.request.use(
+  (request: InternalAxiosRequestConfig) => {
+    request.headers = request.headers || ({} as AxiosRequestHeaders);
+    if (localStorage.getItem("token") !== null) {
+      request.headers["Authorization"] = `${localStorage.getItem("token")}`;
+    }
+    request = { ...request, withCredentials: true };
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const axiosReq = {
   async GET(path: string) {
