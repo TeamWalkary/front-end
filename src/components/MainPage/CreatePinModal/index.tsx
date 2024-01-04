@@ -2,10 +2,10 @@ import { S } from './style';
 import PinModalCloseButton from '../../../assests/PinModalCloseButton';
 import PinModalAddressNameClearButton from '../../../assests/PinModalAddressNameClearButton';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import { pinList } from '../../../core/atom';
 import { useSetRecoilState } from 'recoil';
 import { pinResponseType } from '../../../types/pin';
+import { axiosInstance } from '../../../core/api/axios';
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,6 @@ declare global {
 
 export default function CreatePinModal(props: modalProps) {
   const { setModalShow, latitude, longitude } = props;
-  //console.log(props)
   const pinModalRef = useRef<HTMLDivElement>(null);
   const clickModalOutSide = (
     event:
@@ -67,9 +66,7 @@ export default function CreatePinModal(props: modalProps) {
 
   const [inputPinContents, setInputPinContents] = useState<string>('');
 
-  const handleClearbutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClearbutton = () => {
     setInputPinContents('');
   };
 
@@ -85,10 +82,8 @@ export default function CreatePinModal(props: modalProps) {
   };
 
   const handleSaveButton = () => {
-    const token = localStorage.getItem('token');
     if (inputPinContents.length >= 1 && longitude > 0 && latitude > 0) {
-      console.log(latitude, longitude);
-      axios
+      axiosInstance
         .post(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
           `,
@@ -96,21 +91,13 @@ export default function CreatePinModal(props: modalProps) {
             contents: inputPinContents,
             latitude,
             longitude,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-            withCredentials: true,
           }
         )
-        .then(res => {
+        .then(() => {
           const config = {
-            headers: { Authorization: token },
-            withCredentials: true,
             params: { sortBy: 'LATEST' },
           };
-          axios
+          axiosInstance
             .get<pinResponseType>(
               'https://api.walkary.fun/apis/main/maps-pin',
               config
@@ -120,7 +107,9 @@ export default function CreatePinModal(props: modalProps) {
               setModalShow(false);
             });
         })
-        .catch(res => {});
+        .catch(res => {
+          console.log(res);
+        });
     }
   };
 

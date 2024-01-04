@@ -3,8 +3,8 @@ import { pinList } from '../../../core/atom';
 import { S } from './style';
 import PinDiaryItemIcon from '../../../assests/PinDiaryItemIcon';
 import { useState } from 'react';
-import axios from 'axios';
 import { pinResponseType } from '../../../types/pin';
+import { axiosInstance } from '../../../core/api/axios';
 
 export default function PinDiaryView() {
   const oneDayPinList = useRecoilValue(pinList);
@@ -22,23 +22,16 @@ export default function PinDiaryView() {
   };
 
   const clickPinDeleteButton = (pinId: number) => {
-    const token = localStorage.getItem('token');
-    axios
+    axiosInstance
       .delete(
         `${import.meta.env.VITE_APP_BASE_URL}/apis/pin/${pinId}
-      `,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+      `
       )
-      .then(res => {
+      .then(() => {
         const config = {
-          headers: { Authorization: token },
           params: { sortBy: 'LATEST' },
         };
-        axios
+        axiosInstance
           .get<pinResponseType>(
             'https://api.walkary.fun/apis/main/maps-pin',
             config
@@ -47,7 +40,9 @@ export default function PinDiaryView() {
             setPinList(res.data.pins);
           });
       })
-      .catch(res => {});
+      .catch(res => {
+        console.log(res);
+      });
   };
   return (
     <>
