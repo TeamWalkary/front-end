@@ -21,7 +21,7 @@ declare global {
 
 export default function CreatePinModal(props: modalProps) {
   const { setModalShow, latitude, longitude } = props;
-  console.log(props);
+  //console.log(props)
   const pinModalRef = useRef<HTMLDivElement>(null);
   const clickModalOutSide = (
     event:
@@ -67,7 +67,9 @@ export default function CreatePinModal(props: modalProps) {
 
   const [inputPinContents, setInputPinContents] = useState<string>('');
 
-  const handleClearbutton = () => {
+  const handleClearbutton = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     setInputPinContents('');
   };
 
@@ -99,11 +101,13 @@ export default function CreatePinModal(props: modalProps) {
             headers: {
               Authorization: token,
             },
+            withCredentials: true,
           }
         )
         .then(res => {
           const config = {
             headers: { Authorization: token },
+            withCredentials: true,
             params: { sortBy: 'LATEST' },
           };
           axios

@@ -5,6 +5,7 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -13,6 +14,7 @@ axiosInstance.interceptors.request.use(
     if (localStorage.getItem("token") !== null) {
       request.headers["Authorization"] = `${localStorage.getItem("token")}`;
     }
+    request = { ...request, withCredentials: true };
     return request;
   },
   (error) => {
