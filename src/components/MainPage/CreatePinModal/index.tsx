@@ -99,7 +99,7 @@ export default function CreatePinModal(props: modalProps) {
           };
           axiosInstance
             .get<pinResponseType>(
-              'https://api.walkary.fun/apis/main/maps-pin',
+              `${import.meta.env.VITE_APP_BASE_URL}/main/maps-pin`,
               config
             )
             .then(res => {
