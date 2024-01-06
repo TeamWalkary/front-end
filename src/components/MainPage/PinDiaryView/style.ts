@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
   PinRecordArea: styled.div`
@@ -80,7 +80,8 @@ export const S = {
     flex-direction: column;
   `,
 
-  PinContents: styled.div`
+  PinContents: styled.input`
+    border: none;
     font-family: Pretendard-Regular;
     font-weight: 400;
     font-size: 1.4rem;
