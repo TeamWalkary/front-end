@@ -8,19 +8,16 @@ export default function NothingPage() {
 
   return (
     <S.Container>
-      <S.Title>일기 모아보기</S.Title>
-      <div>
-        <header>
-          아직 작성된 일기가 없어요.
-          <br />
-          오늘 날짜로 일기를 써보세요.
-        </header>
-        <Button
-          onclick={() => navigate("/main")}
-          placeholder={"일기쓰기"}
-          isValid={true}
-        />
-      </div>
+      <header>
+        아직 작성된 일기가 없어요.
+        <br />
+        오늘 날짜로 일기를 써보세요.
+      </header>
+      <Button
+        onclick={() => navigate("/main")}
+        placeholder={"일기쓰기"}
+        isValid={true}
+      />
     </S.Container>
   );
 }

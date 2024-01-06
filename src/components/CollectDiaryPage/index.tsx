@@ -4,7 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import NothingPage from "./NothingPage";
 import Filter from "../Common/Filter";
-import { diaryApi } from "../../core/api/collectDiary";
+import Diary from "./Diary";
+// import { diaryApi } from "../../core/api/collectDiary";
 
 type Diary = {
   id: string;
@@ -27,6 +28,8 @@ export default function CollectDiaryPage() {
   const [allDiaryData, setAllDiaryData] = useState<Diary[]>([]);
   const [currentSort, setCurrentSort] = useState("");
   const [selectedDate, setSelectedDate] = useState<selectedDateData>(initDate);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const changeSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === "earliest") {
@@ -47,14 +50,17 @@ export default function CollectDiaryPage() {
 
   const token = localStorage.getItem("token");
   const chosenAllDate = selectedDate.startDate && selectedDate.lastDate;
+  const isLastItem = allDiaryData.length === 100;
 
-  useEffect(() => {
+  const getData = () => {
     const apiUrl = `${
       import.meta.env.VITE_APP_BASE_URL
     }/apis/collect/diary?limit=10`;
+    setLoading(true);
+
     axios
       .get(
-        `${apiUrl}&offset=${0}${currentSort && `&sortBy=${currentSort}`}${
+        `${apiUrl}&offset=${page}${currentSort && `&sortBy=${currentSort}`}${
           chosenAllDate &&
           `&search=${`${selectedDate.startDate}-${selectedDate.lastDate}`}`
         }
@@ -68,7 +74,8 @@ export default function CollectDiaryPage() {
       )
       .then((res) => {
         if (res.status === 200) {
-          setAllDiaryData(res.data);
+          setAllDiaryData((prevData) => [...prevData, ...res.data]);
+          setLoading(false);
         } else if (res.status === 400) {
           null;
         }
@@ -76,7 +83,11 @@ export default function CollectDiaryPage() {
       .catch((res) => {
         console.log(res);
       });
-  }, [currentSort, chosenAllDate]);
+  };
+
+  useEffect(() => {
+    !isLastItem && getData();
+  }, [page, currentSort, chosenAllDate]);
 
   // useEffect(() => {
   //   fetchDiaryData();
@@ -105,18 +116,19 @@ export default function CollectDiaryPage() {
         {allDiaryData.length === 0 ? (
           <NothingPage />
         ) : (
-          allDiaryData?.map((diary) => {
-            return (
-              <S.DiaryList key={diary.id}>
-                <div>
-                  <header>{diary.title}</header>
-                  <p>{diary.date}</p>
-                </div>
-                {diary.image && <img alt="일기 이미지" src={diary.image}></img>}
-                <main>{diary.content}</main>
-              </S.DiaryList>
-            );
-          })
+          <>
+            {allDiaryData?.map((diary, idx) => {
+              return (
+                <Diary
+                  {...diary}
+                  onFetchMore={() => setPage((prev) => prev + 1)}
+                  isLastItem={allDiaryData.length - 1 === idx}
+                  key={diary.id}
+                />
+              );
+            })}
+            {loading && <div>loading</div>}
+          </>
         )}
       </>
     </S.Container>
