@@ -2,7 +2,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { pinList } from "../../../core/atom";
 import { S } from "./style";
 import PinDiaryItemIcon from "../../../assests/PinDiaryItemIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pinListType, pinResponseType } from "../../../types/pin";
 import { axiosInstance } from "../../../core/api/axios";
 
@@ -13,9 +13,15 @@ export default function PinDiaryView() {
   const [modify, setModify] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(true);
   const setPinList = useSetRecoilState(pinList);
+
   const [editAblePinList, setEditablePinList] = useState<pinListType[]>([
     ...oneDayPinListReverse,
   ]);
+
+  useEffect(() => {
+    const tempPinListReverse = [...oneDayPinList].reverse();
+    setEditablePinList(tempPinListReverse);
+  }, [oneDayPinList]);
 
   const handleUpdateButton = () => {
     setModify(true);
@@ -60,13 +66,20 @@ export default function PinDiaryView() {
       setIsEditable(true);
       setModify(false);
     } else {
+      const modifyPins = {
+        pinList: editAblePinList.map(pin => {
+          return {
+            id: pin.id,
+            contents: pin.contents,
+          };
+        }),
+      };
+
       axiosInstance
         .patch(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
       `,
-          {
-            editAblePinList,
-          }
+          modifyPins
         )
         .then(() => {
           const config = {
