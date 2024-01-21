@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
   PinRecordArea: styled.div`
@@ -80,7 +80,8 @@ export const S = {
     flex-direction: column;
   `,
 
-  PinContents: styled.div`
+  PinContents: styled.input`
+    border: none;
     font-family: Pretendard-Regular;
     font-weight: 400;
     font-size: 1.4rem;
@@ -92,5 +93,20 @@ export const S = {
     font-weight: 700;
     font-size: 0.8rem;
     color: #a1a1a1;
+  `,
+
+  PinDelete: styled.div`
+    display: flex;
+    margin-left: auto;
+  `,
+
+  PinDeleteButton: styled.button`
+    height: 2rem;
+    font-family: Pretendard-Regular;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #a1a1a1;
+    border: none;
+    background-color: inherit;
   `,
 };

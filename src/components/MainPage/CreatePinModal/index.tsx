@@ -1,11 +1,11 @@
-import { S } from "./style";
-import PinModalCloseButton from "../../../assests/PinModalCloseButton";
-import PinModalAddressNameClearButton from "../../../assests/PinModalAddressNameClearButton";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { pinList } from "../../../core/atom";
-import { useSetRecoilState } from "recoil";
-import { pinResponseType } from "../../../types/pin";
+import { S } from './style';
+import PinModalCloseButton from '../../../assests/PinModalCloseButton';
+import PinModalAddressNameClearButton from '../../../assests/PinModalAddressNameClearButton';
+import { useEffect, useRef, useState } from 'react';
+import { pinList } from '../../../core/atom';
+import { useSetRecoilState } from 'recoil';
+import { pinResponseType } from '../../../types/pin';
+import { axiosInstance } from '../../../core/api/axios';
 
 interface modalProps {
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,6 @@ declare global {
 
 export default function CreatePinModal(props: modalProps) {
   const { setModalShow, latitude, longitude } = props;
-  //console.log(props)
   const pinModalRef = useRef<HTMLDivElement>(null);
   const clickModalOutSide = (
     event:
@@ -41,7 +40,10 @@ export default function CreatePinModal(props: modalProps) {
 
   useEffect(() => {
     const callback = (result: any, status: any) => {
-      if (status === window.kakao.maps.services.Status.OK) {
+      if (
+        status === window.kakao.maps.services.Status.OK &&
+        result[0].road_address !== null
+      ) {
         const placeAddress: string = result[0].road_address.address_name;
 
         const ps = new window.kakao.maps.services.Places();
@@ -55,19 +57,17 @@ export default function CreatePinModal(props: modalProps) {
           }
         );
       } else {
-        setInputPinContents("");
+        setInputPinContents('');
       }
     };
 
     geocoder.coord2Address(longitude, latitude, callback);
   }, []);
 
-  const [inputPinContents, setInputPinContents] = useState<string>("");
+  const [inputPinContents, setInputPinContents] = useState<string>('');
 
-  const handleClearbutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    setInputPinContents("");
+  const handleClearbutton = () => {
+    setInputPinContents('');
   };
 
   const handlePinContentsInput = (
@@ -77,19 +77,13 @@ export default function CreatePinModal(props: modalProps) {
     setInputPinContents(pinContentsOnChange);
   };
 
-  const handleClosebutton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClosebutton = () => {
     setModalShow(false);
   };
 
-  const handleSaveButton = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    const token = localStorage.getItem("token");
-    if (inputPinContents.length >= 1) {
-      //console.log(latitude,longitude)
-      axios
+  const handleSaveButton = () => {
+    if (inputPinContents.length >= 1 && longitude > 0 && latitude > 0) {
+      axiosInstance
         .post(
           `${import.meta.env.VITE_APP_BASE_URL}/apis/pin
           `,
@@ -97,31 +91,25 @@ export default function CreatePinModal(props: modalProps) {
             contents: inputPinContents,
             latitude,
             longitude,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-            withCredentials: true,
           }
         )
-        .then((res) => {
+        .then(() => {
           const config = {
-            headers: { Authorization: token },
-            withCredentials: true,
-            params: { sortBy: "LATEST" },
+            params: { sortBy: 'LATEST' },
           };
-          axios
+          axiosInstance
             .get<pinResponseType>(
-              "https://api.walkary.fun/apis/main/maps-pin",
+              `${import.meta.env.VITE_APP_BASE_URL}/apis/main/maps-pin`,
               config
             )
-            .then((res) => {
+            .then(res => {
               setPinList(res.data.pins);
               setModalShow(false);
             });
         })
-        .catch((res) => {});
+        .catch(res => {
+          console.log(res);
+        });
     }
   };
 
@@ -129,7 +117,7 @@ export default function CreatePinModal(props: modalProps) {
     <>
       <S.Container
         ref={pinModalRef}
-        onClick={(event) => clickModalOutSide(event)}
+        onClick={event => clickModalOutSide(event)}
       >
         <S.ModalContainer>
           <S.FirstSection>
@@ -148,7 +136,7 @@ export default function CreatePinModal(props: modalProps) {
                 value={inputPinContents}
                 maxLength={20}
                 placeholder={
-                  inputPinContents.length === 0 ? "아늑하고 포근한 우리집" : ""
+                  inputPinContents.length === 0 ? '아늑하고 포근한 우리집' : ''
                 }
               />
               <S.CloseButtonContainer onClick={handleClearbutton}>
