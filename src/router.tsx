@@ -14,16 +14,17 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Frame />}>
-          <Route path="" element={<LandingPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signUp" element={<SignUpPage />} />
-          <Route path="main" element={<MainPage />} />
-          <Route path="diary" element={<DiaryPage />} />
-          <Route path="collectDiary" element={<CollectDiaryPage />} />
-          <Route path="collectPin" element={<CollectPinPage />} />
+        <Route path='/' element={<Frame />}>
+          <Route path='' element={<LandingPage />} />
+          <Route path='login' element={<LoginPage />} />
+          <Route path='signUp' element={<SignUpPage />} />
+          <Route path='main' element={<MainPage />} />
+          <Route path='main/:day' element={<MainPage />} />
+          <Route path='diary' element={<DiaryPage />} />
+          <Route path='collectDiary' element={<CollectDiaryPage />} />
+          <Route path='collectPin' element={<CollectPinPage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

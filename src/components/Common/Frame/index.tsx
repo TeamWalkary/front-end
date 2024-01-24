@@ -7,7 +7,7 @@ export default function Frame() {
   const location = useLocation();
 
   const isNavVisible =
-    location.pathname === "/main" ||
+    location.pathname.startsWith("/main") ||
     location.pathname === "/collectDiary" ||
     location.pathname === "/collectPin";
 

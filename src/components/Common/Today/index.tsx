@@ -1,10 +1,8 @@
-const Today = () => {
-  const today = new Date();
-
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDay();
-  const date = today.getDate();
+export default function Today({ selectedDate }: { selectedDate: Date }) {
+  const year = selectedDate.getFullYear();
+  const month = selectedDate.getMonth() + 1;
+  const day = selectedDate.getDay();
+  const date = selectedDate.getDate();
 
   const getKorDay = (day: number) => {
     switch (day) {
@@ -39,6 +37,4 @@ const Today = () => {
       {year}. {month}. {date}. ({getKorDay(day)})
     </span>
   );
-};
-
-export default Today;
+}
